@@ -148,19 +148,28 @@
     btn.innerText = "Bitte warten...";
         try{
         console.log ("Anfrage gestartet")
-            const response = await fetch('/request', {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({budget: budget})
-            });
-
+        const response = await fetch('/request', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                budget,
+                start_datum,
+                end_datum,
+                temperatur,
+                am_wasser,
+                reisestyle
+            })
+        });
         const data = await response.json();
-
-        renderCards(data.vorschlaege);
+        console.log("Server Antwort:", data);
+        const parsedAnswer = JSON.parse(data.answer);
+        renderCards(parsedAnswer.vorschlaege);
 
     } catch (e) {
-        console.error(e);
-        alert("Fehler beim Request");
+        console.error("Fehler-Details:", e);
+    alert("Fehler beim Request oder beim Verarbeiten der Daten");
 
     } finally {
         loading.style.display = "none";
