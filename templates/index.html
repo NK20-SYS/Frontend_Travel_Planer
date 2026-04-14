@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+<h1>Hallo Welt</h1>
+<input type="text" id="Budget" placeholder="Budget in FR.-?">
+<label for="Start_Datum">Anreisedatum:</label>
+<input type="date" id="Start_Datum">
+<label for="End_Datum">Abreisedatum:</label>
+<input type="date" id="End_Datum">
+<label for="Temperatur">Wähle eine Temperatur:</label>
+<select name="Temperatur" id="Temperatur">
+  <option value="Warm">Warm</option>
+  <option value="Angenehm">Angenehm</option>
+  <option value="Frisch">Frisch</option>
+  <option value="Kalt">Kalt</option>
+</select>
+<label for="Am_Wasser">Möchtest du am Wasser sein?</label>
+<select name="Am_Wasser?" id="Am_Wasser">
+  <option value="Ja">Ja</option>
+  <option value="Spielt keine Rolle">Spielt keine Rolle</option>
+  <option value="Nein">Nein</option>
+</select>
+<label for="Reisestyle">Wie Möchtest du Reisen?</label>
+<select name="Reisestyle" id="Reisestyle">
+  <option value="Comfort">Comfort</option>
+  <option value="Luxus">Luxus</option>
+  <option value="Budget">Budget</option>
+  <option value="Adventourous">Adventourous</option>
+  <option value="Holzklasse">Holzklasse</option>
+</select>
+<button id="sendBtn" onclick="askgemini()">Search</button>
+<div id="result"></div>
+<script>
+
+    async function askgemini() {
+
+        const budget = document.getElementById('Budget').value;
+        const start_datum = document.getElementById('Start_Datum').value;
+        const end_datum = document.getElementById('End_Datum').value;
+        const temperatur = document.getElementById('Temperatur').value;
+        const am_wasser = document.getElementById('Am_Wasser').value;
+        const reisestyle = document.getElementById('Reisestyle').value;
+        const btn = document.getElementById('sendBtn');
+        const resultDiv = document.getElementById('result');
+         if (!budget || budget.trim()===""){
+            console.log ("Ich bin im if")
+            alert("Das Budget fehlt");
+            return;
+        }
+        if (!start_datum || start_datum.trim()===""){
+            console.log ("Ich bin im if")
+            alert("Das Start Datum fehlt");
+            return;
+        }
+        if (!end_datum || end_datum.trim()===""){
+            console.log ("Ich bin im if")
+            alert("Das End Datum fehlt");
+            return;
+        }
+        if (!temperatur || temperatur.trim()===""){
+            console.log ("Ich bin im if")
+            alert("Die Temperatur fehlt");
+            return;
+        }
+        try{
+        console.log ("Anfrage gestartet")
+            const response = await fetch('/request', {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({budget: budget})
+            });
+
+            const data = await response.json();
+
+            if (data.answer) {
+                resultDiv.innerText = data.answer;
+            }
+
+        }catch (e) {
+            alert("Fehler beim ausfuehren des Promts")
+        }
+    }
+</script>
+</body>
+</html>
