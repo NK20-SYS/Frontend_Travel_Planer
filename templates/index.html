@@ -1,14 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Test</title>
+<meta charset="UTF-8">
+<title>Reiseplaner</title>
 
+<style>
+    /* Karten Layout */
+    #result {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
 
+    .card {
+        background: blue;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        width: 300px;
+        transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Inputs */
+    input {
+        display: block;
+        margin-bottom: 10px;
+        padding: 8px;
+        width: 300px;
+    }
+
+    /* Loading */
+    #loading {
+        display: none;
+        margin-top: 20px;
+        text-align: center;
+        font-family: Arial;
+    }
+
+    .loader {
+        width: 100%;
+        max-width: 300px;
+        height: 8px;
+        background: #eee;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: auto;
+        position: relative;
+    }
+
+    .loader::before {
+        content: "";
+        position: absolute;
+        width: 40%;
+        height: 100%;
+        background: #4CAF50;
+        border-radius: 10px;
+        animation: loading 1.2s infinite;
+    }
+
+    @keyframes loading {
+        0% { left: -40%; }
+        50% { left: 30%; }
+        100% { left: 100%; }
+    }
+</style>
 
 </head>
+
 <body>
-<h1>Hallo Welt</h1>
+<h1>Reiseplaner</h1>
 <input type="text" id="Budget" placeholder="Budget in FR.-?">
 <label for="Start_Datum">Anreisedatum:</label>
 <input type="date" id="Start_Datum">
@@ -36,11 +102,17 @@
   <option value="Holzklasse">Holzklasse</option>
 </select>
 <button id="sendBtn" onclick="askgemini()">Search</button>
+
+<div id="loading">
+    <div class="loader"></div>
+    <p>Wir erstellen deine Reisevorschläge...</p>
+</div>
+
 <div id="result"></div>
 <script>
 
     async function askgemini() {
-
+//Variabeln Zuteilung nach dem einlesen
         const budget = document.getElementById('Budget').value;
         const start_datum = document.getElementById('Start_Datum').value;
         const end_datum = document.getElementById('End_Datum').value;
@@ -48,7 +120,10 @@
         const am_wasser = document.getElementById('Am_Wasser').value;
         const reisestyle = document.getElementById('Reisestyle').value;
         const btn = document.getElementById('sendBtn');
+        const loading = document.getElementById('loading');
         const resultDiv = document.getElementById('result');
+
+//überprüfen ob wählbare eingaben Getätigt wurden
          if (!budget || budget.trim()===""){
             console.log ("Ich bin im if")
             alert("Das Budget fehlt");
@@ -64,29 +139,84 @@
             alert("Das End Datum fehlt");
             return;
         }
-        if (!temperatur || temperatur.trim()===""){
-            console.log ("Ich bin im if")
-            alert("Die Temperatur fehlt");
-            return;
-        }
+
+
+    //Loading anzeigen
+    loading.style.display = "block";
+    btn.disabled = true;
+    btn.innerText = "Bitte warten...";
+
+        // Anfrage an Backend
         try{
+        //Anzeige in der Konsole das suche Gestartet wurde
         console.log ("Anfrage gestartet")
-            const response = await fetch('/request', {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({budget: budget})
-            });
 
-            const data = await response.json();
+        //Effektive abfrage
+        const response = await fetch('/request', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                budget,
+                start_datum,
+                end_datum,
+                temperatur,
+                am_wasser,
+                reisestyle
+            })
+        });
 
-            if (data.answer) {
-                resultDiv.innerText = data.answer;
-            }
+        //Auf die anwort warten
+        const data = await response.json();
 
-        }catch (e) {
-            alert("Fehler beim ausfuehren des Promts")
-        }
+        //Antwort in die Konsole schreiben
+        console.log("Server Antwort:", data);
+
+        //Antwort entschlüssel
+        const parsedAnswer = JSON.parse(data.answer);
+
+        //Antwort in die Carte weitergeben als liste
+        renderCards(parsedAnswer.vorschlaege);
+
+        //Fehler abfangen und in die Konsole schreiben
+    } catch (e) {
+        console.error("Fehler-Details:", e);
+    alert("Fehler beim Request oder beim Verarbeiten der Daten");
+
+
+        //Loading screen abbrechen und Button wiederfreischalten
+    } finally {
+        loading.style.display = "none";
+        btn.disabled = false;
+        btn.innerText = "Search";
     }
+}
+
+
+// Karten anzeigen
+function renderCards(vorschlaege) {
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+
+    //Karten in einer Vorschleife mit index v anzeigen
+    vorschlaege.forEach(v => {
+        resultDiv.innerHTML += `
+            <div class="card">
+                <h3>${v.stadt}, ${v.land}</h3>
+                <p>${v.begruendung}</p>
+                <p>Kosten: ${v.geschaetzte_kosten_chf} CHF</p>
+                <p>Temperatur: ${v.average_temp_month_in_c}°C</p>
+                <p>Wasser: ${v.wasser_in_20km_radius ? "Ja" : "Nein"}</p>
+                <p>Unterkunft: ${v.unterkunft_art}</p>
+                <p>Transport: ${v.transportmittel}</p>
+            </div>
+        `;
+    });
+}
+
 </script>
+
 </body>
 </html>
