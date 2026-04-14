@@ -15,7 +15,7 @@
     }
 
     .card {
-        background: white;
+        background: blue;
         padding: 15px;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -112,7 +112,7 @@
 <script>
 
     async function askgemini() {
-
+//Variabeln Zuteilung nach dem einlesen
         const budget = document.getElementById('Budget').value;
         const start_datum = document.getElementById('Start_Datum').value;
         const end_datum = document.getElementById('End_Datum').value;
@@ -122,6 +122,8 @@
         const btn = document.getElementById('sendBtn');
         const loading = document.getElementById('loading');
         const resultDiv = document.getElementById('result');
+
+//überprüfen ob wählbare eingaben Getätigt wurden
          if (!budget || budget.trim()===""){
             console.log ("Ich bin im if")
             alert("Das Budget fehlt");
@@ -137,17 +139,19 @@
             alert("Das End Datum fehlt");
             return;
         }
-        if (!temperatur || temperatur.trim()===""){
-            console.log ("Ich bin im if")
-            alert("Die Temperatur fehlt");
-            return;
-        }
+
+
     //Loading anzeigen
     loading.style.display = "block";
     btn.disabled = true;
     btn.innerText = "Bitte warten...";
+
+        // Anfrage an Backend
         try{
+        //Anzeige in der Konsole das suche Gestartet wurde
         console.log ("Anfrage gestartet")
+
+        //Effektive abfrage
         const response = await fetch('/request', {
             method: "POST",
             headers: {
@@ -162,15 +166,26 @@
                 reisestyle
             })
         });
+
+        //Auf die anwort warten
         const data = await response.json();
+
+        //Antwort in die Konsole schreiben
         console.log("Server Antwort:", data);
+
+        //Antwort entschlüssel
         const parsedAnswer = JSON.parse(data.answer);
+
+        //Antwort in die Carte weitergeben als liste
         renderCards(parsedAnswer.vorschlaege);
 
+        //Fehler abfangen und in die Konsole schreiben
     } catch (e) {
         console.error("Fehler-Details:", e);
     alert("Fehler beim Request oder beim Verarbeiten der Daten");
 
+
+        //Loading screen abbrechen und Button wiederfreischalten
     } finally {
         loading.style.display = "none";
         btn.disabled = false;
@@ -185,6 +200,7 @@ function renderCards(vorschlaege) {
     const resultDiv = document.getElementById("result");
     resultDiv.innerHTML = "";
 
+    //Karten in einer Vorschleife mit index v anzeigen
     vorschlaege.forEach(v => {
         resultDiv.innerHTML += `
             <div class="card">
