@@ -1,567 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Reiseplaner</title>
-
-    <style>
-        /* Karten Layout */
-        #result {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .details-view.card {
-            display: flex; /* Aktiviert Flexbox */
-            flex-direction: row; /* Richtet Elemente nebeneinander aus */
-            gap: 20px; /* Fügt einen Abstand zwischen Text und Bild ein */
-            align-items: flex-start; /* Richtet Elemente oben aus */
-        }
-
-        .text-inhalt {
-            flex: 1; /* Der Textbereich füllt den Großteil der Breite aus */
-        }
-
-        .reise-bild-rechts {
-            width: 600px; /* Feste Breite für das Bild */
-            height: auto; /* Automatische Höhe für das Bild */
-            object-fit: cover; /* WICHTIG: Bild wird nicht verzerrt, sondern passend beschnitten */
-            border-radius: 8px; /* Optionale abgerundete Ecken für das Bild */
-        }
-
-        .details-view-card {
-            display: flex;
-            background: lightsalmon;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
-            width: 95%; /* Nutzt fast die volle Breite des Eltern-Elements */
-            max-width: 1200px; /* Verhindert, dass die Zeilen zu lang zum Lesen werden */
-            margin: 20px auto; /* Zentriert die Box, falls sie kleiner als der Bildschirm ist */
-            box-sizing: border-box; /* SEHR WICHTIG: Padding wird in die Breite eingerechnet */
-        }
-
-        .card {
-            background: lightskyblue;
-            padding: 20px;
-            border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            width: 400px;
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Inputs */
-        input {
-            display: block;
-            margin-bottom: 10px;
-            padding: 8px;
-            width: 300px;
-        }
-
-        /* Loading */
-        #loading {
-            display: none;
-            margin-top: 20px;
-            text-align: center;
-            font-family: Arial;
-        }
-
-        .loader {
-            width: 100%;
-            max-width: 300px;
-            height: 8px;
-            background: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: auto;
-            position: relative;
-        }
-
-        .loader::before {
-            content: "";
-            position: absolute;
-            width: 40%;
-            height: 100%;
-            background: #4CAF50;
-            border-radius: 10px;
-            animation: loading 1.2s infinite;
-        }
-
-    @keyframes loading {
-        0% { left: -40%; }
-        50% { left: 30%; }
-        100% { left: 100%; }
-    }
-
-
-    .travel-style-bar {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-
-    .style-btn {
-        padding: 10px 15px;
-        border: none;
-        background: #ddd;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .style-btn:hover {
-        background: #bbb;
-    }
-
-    .style-btn.active {
-        background: #4CAF50;
-        color: white;
-        font-weight: bold;
-    }
-    .wasser-btn {
-        padding: 10px 15px;
-        border: none;
-        background: #ddd;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .wasser-btn:hover {
-        background: #bbb;
-    }
-
-    .wasser-btn.active {
-        background: #4CAF50;
-        color: white;
-        font-weight: bold;
-    }
-    .ferienstil-btn {
-        padding: 10px 15px;
-        border: none;
-        background: #ddd;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .ferienstil-btn:hover {
-        background: #bbb;
-    }
-
-    .ferienstil-btn.active {
-        background: #4CAF50;
-        color: white;
-        font-weight: bold;
-    }
-    .ferienlage-btn {
-        padding: 10px 15px;
-        border: none;
-        background: #ddd;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .ferienlage-btn:hover {
-        background: #bbb;
-    }
-
-    .ferienlage-btn.active {
-        background: #4CAF50;
-        color: white;
-        font-weight: bold;
-    }
-    .ferienart-btn {
-        padding: 10px 15px;
-        border: none;
-        background: #ddd;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .ferienart-btn:hover {
-        background: #bbb;
-    }
-
-    .ferienart-btn.active {
-        background: #4CAF50;
-        color: white;
-        font-weight: bold;
-    }
-
-</style>
-
-<script>
-let reisestyle = "Comfort";
-
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".style-btn");
-
-    buttons.forEach(button => {
-        button.addEventListener("click", function () {
-            buttons.forEach(btn => btn.classList.remove("active"));
-            this.classList.add("active");
-            reisestyle = this.dataset.value;
-            console.log("Aktiv:", reisestyle);
-        });
-    });
-});
-
-let am_wasser = "Ja";
-document.addEventListener("DOMContentLoaded", function () {
-    const wasserButtons = document.querySelectorAll(".wasser-btn");
-
-    wasserButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            wasserButtons.forEach(btn => btn.classList.remove("active"));
-            this.classList.add("active");
-            am_wasser = this.dataset.value;
-            console.log("Wasser:", am_wasser);
-        });
-    });
-});
-
-let ferienstil = "Aktiv";
-
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".ferienstil-btn");
-
-    buttons.forEach(button => {
-        button.addEventListener("click", function () {
-
-            // alle deaktivieren
-            buttons.forEach(btn => btn.classList.remove("active"));
-
-            // aktuellen aktivieren
-            this.classList.add("active");
-
-            // Wert speichern
-            ferienstil = this.dataset.value;
-
-            console.log("Ferienstil:", ferienstil);
-        });
-    });
-});
-
-let ferienlage = "Stadt";
-
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".ferienlage-btn");
-
-    buttons.forEach(button => {
-        button.addEventListener("click", function () {
-
-            // alle deaktivieren
-            buttons.forEach(btn => btn.classList.remove("active"));
-
-            // aktuellen aktivieren
-            this.classList.add("active");
-
-            // Wert speichern
-            ferienlage = this.dataset.value;
-
-            console.log("Ferienlage:", ferienlage);
-        });
-    });
-});
-
-let ferienart = "Stationaer";
-
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".ferienart-btn");
-
-    buttons.forEach(button => {
-        button.addEventListener("click", function () {
-
-            // alle deaktivieren
-            buttons.forEach(btn => btn.classList.remove("active"));
-
-            // aktuellen aktivieren
-            this.classList.add("active");
-
-            // Wert speichern
-            ferienart = this.dataset.value;
-
-            console.log("Ferienart:", ferienart);
-        });
-    });
-});
-
-
-</script>
-
-
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 
 <body>
-<h1>Reiseplaner</h1>
+    <h1>Reiseplaner</h1>
 
-<label for="Start_Datum">Anreisedatum:</label>
-<input type="date" id="Start_Datum">
+        <!---Anreisedatum als Kalender--->
+    <label for="Start_Datum">Anreisedatum:</label>
+    <input type="date" id="Start_Datum">
 
-<label for="End_Datum">Abreisedatum:</label>
-<input type="date" id="End_Datum">
+        <!---Abreisedatum als Kalender--->
+    <label for="End_Datum">Abreisedatum:</label>
+    <input type="date" id="End_Datum">
 
-<label for="Budget">Budget:</label>
-<input type="text" id="Budget" placeholder="Budget in Fr.-?">
+        <!---Budget als Eingabefeld--->
+    <label for="Budget">Budget:</label>
+    <input type="text" id="Budget" placeholder="Budget in Fr.-?">
 
-<label for="Budgettoleranz">Budgettoleranz:</label>
-<input type="text" id="Budgettoleranz" placeholder="Budgettoleranz in Fr.-">
+        <!---Budgettoleranz als Eingabefeld--->
+    <label for="Budgettoleranz">Budgettoleranz:</label>
+    <input type="text" id="Budgettoleranz" placeholder="Budgettoleranz in Fr.-">
 
-<label for="Reisestil">Reisestil:</label>
-<div class="travel-style-bar" id="Reisestil">
-    <button class="style-btn active" data-value="Comfort">Comfort</button>
-    <button class="style-btn" data-value="Luxus">Luxus</button>
-    <button class="style-btn" data-value="Budget">Budget</button>
-    <button class="style-btn" data-value="Adventourous">Adventourous</button>
-    <button class="style-btn" data-value="Holzklasse">Holzklasse</button>
-</div>
+        <!---Reisestil als Buttonauswahl--->
+    <label for="Reisestil">Reisestil:</label>
+    <div class="travel-style-bar" id="Reisestil">
+        <button class="toggle-btn active" data-group="reisestyle" data-value="Comfort">Comfort</button>
+        <button class="toggle-btn" data-group="reisestyle" data-value="Luxus">Luxus</button>
+        <button class="toggle-btn" data-group="reisestyle" data-value="Budget">Budget</button>
+        <button class="toggle-btn" data-group="reisestyle" data-value="Adventourous">Adventourous</button>
+        <button class="toggle-btn" data-group="reisestyle" data-value="Holzklasse">Holzklasse</button>
+    </div>
 
-<!---<label for="Reisestyle">Wie Möchtest du Reisen?</label>
-<select name="Reisestyle" id="Reisestyle">
-  <option value="Comfort">Comfort</option>
-  <option value="Luxus">Luxus</option>
-  <option value="Budget">Budget</option>
-  <option value="Adventourous">Adventourous</option>
-  <option value="Holzklasse">Holzklasse</option>
-</select><br><br>--->
+        <!---Mindesttemperatur als Eingabefeld--->
+    <label for="Mindesttemperatur">Mindesttemperatur:</label>
+    <input type="text" id="Mindesttemperatur" placeholder="z.B. 10 Grad">
 
+        <!---Maximaltemperatur als Eingabefeld--->
+    <label for="Maximaltemperatur">Maximaltemperatur:</label>
+    <input type="text" id="Maximaltemperatur" placeholder="z.B. 30 Grad">
 
-<label for="Mindesttemperatur">Mindesttemperatur:</label>
-<input type="text" id="Mindesttemperatur" placeholder="z.B. 10 Grad">
+        <!---Location am Wasser als Buttonauswahl--->
+    <label for="Am_Wasser">Möchtest du am Wasser sein?</label>
+    <div class="travel-style-bar" id="Am_Wasser">
+        <button class="toggle-btn active" data-group="wasser" data-value="Ja">Ja</button>
+        <button class="toggle-btn" data-group="wasser" data-value="Spielt keine Rolle">Spielt keine Rolle</button>
+        <button class="toggle-btn" data-group="wasser" data-value="Nein">Nein</button>
+    </div>
 
-<label for="Maximaltemperatur">Maximaltemperatur:</label>
-<input type="text" id="Maximaltemperatur" placeholder="z.B. 30 Grad">
+        <!---Ferienstil als Buttonauswahl--->
+    <label for="Ferienstil">Ferienstil:</label>
+    <div class="travel-style-bar" id="Ferienstil">
+        <button class="toggle-btn active" data-group="ferienstil" data-value="Aktiv">Aktiv</button>
+        <button class="toggle-btn" data-group="ferienstil" data-value="Beides">Beides</button>
+        <button class="toggle-btn" data-group="ferienstil" data-value="Relax">Relax</button>
+    </div>
 
+        <!---Fokus als Eingabefeld--->
+    <label for="Fokus">Fokus:</label>
+    <input type="text" id="Fokus" placeholder="z.B. Wandern">
 
+        <!---Ferienlage als Buttonauswahl--->
+    <label for="Ferienlage">Ferienlage:</label>
+    <div class="travel-style-bar" id="Ferienlage">
+        <button class="toggle-btn active" data-group="ferienlage" data-value="Stadt">Stadt</button>
+        <button class="toggle-btn" data-group="ferienlage" data-value="Land">Land</button>
+        <button class="toggle-btn" data-group="ferienlage" data-value="Egal">Egal</button>
+    </div>
 
-<label for="Am_Wasser">Möchtest du am Wasser sein?</label>
-<div class="travel-style-bar" id="Am_Wasser">
-    <button type="button" class="wasser-btn active" data-value="Ja">Ja</button>
-    <button type="button" class="wasser-btn" data-value="Spielt keine Rolle">Spielt keine Rolle</button>
-    <button type="button" class="wasser-btn" data-value="Nein">Nein</button>
-</div>
+        <!---Ferienart als Buttonauswahl--->
+    <label for="Ferienart">Ferienart:</label>
+    <div class="travel-style-bar" id="Ferienart">
+        <button class="toggle-btn active" data-group="ferienart" data-value="Stationaer">Stationaer</button>
+        <button class="toggle-btn" data-group="ferienart" data-value="Lagewechsel">Lagewechsel</button>
+        <button class="toggle-btn" data-group="ferienart" data-value="Roadtrip">Roadtrip</button>
+    </div>
 
-<label for="Ferienstil">Ferienstil:</label>
-<div class="travel-style-bar" id="Ferienstil">
-    <button type="button" class="ferienstil-btn active" data-value="Aktiv">Aktiv</button>
-    <button type="button" class="ferienstil-btn" data-value="Beides">Beides</button>
-    <button type="button" class="ferienstil-btn" data-value="Relax">Relax</button>
-</div>
+        <!---Searchbutton--->
+    <button id="sendBtn" onclick="askgemini()">Search</button>
 
-<label for="Fokus">Fokus:</label>
-<input type="text" id="Fokus" placeholder="z.B. Wandern">
+        <!---Ladebalken Reisevorschlag erstellen--->
+    <div id="loading">
+        <div class="loader"></div>
+        <p>Wir erstellen deine Reisevorschläge...</p>
+    </div>
 
-<label for="Ferienlage">Ferienlage:</label>
-<div class="travel-style-bar" id="Ferienlage">
-    <button type="button" class="ferienlage-btn active" data-value="Stadt">Stadt</button>
-    <button type="button" class="ferienlage-btn" data-value="Land">Land</button>
-    <button type="button" class="ferienlage-btn" data-value="Egal">Egal</button>
-</div>
-<label for="Ferienart">Ferienart:</label>
-<div class="travel-style-bar" id="Ferienart">
-    <button type="button" class="ferienart-btn active" data-value="Stationaer">Stationaer</button>
-    <button type="button" class="ferienart-btn" data-value="Lagewechsel">Lagewechsel</button>
-    <button type="button" class="ferienart-btn" data-value="Roadtrip">Roadtrip</button>
-</div>
-
-<button id="sendBtn" onclick="askgemini()">Search</button>
-
-<div id="loading">
-    <div class="loader"></div>
-    <p>Wir erstellen deine Reisevorschläge...</p>
-</div>
-
-<div id="result"></div>
-<div id="details-container"></div>
-<script>
-
-
-    async function askgemini() {
-//Variabeln Zuteilung nach dem einlesen
-        const start_datum = document.getElementById('Start_Datum').value;
-        const end_datum = document.getElementById('End_Datum').value;
-        const budget = document.getElementById('Budget').value;
-        const budgettoleranz = document.getElementById('Budgettoleranz').value;
-        const mintemperatur = document.getElementById('Mindesttemperatur').value;
-        const maxtemperatur = document.getElementById('Maximaltemperatur').value;
-        const ferienfokus = document.getElementById('Fokus').value;
-        const btn = document.getElementById('sendBtn');
-        const loading = document.getElementById('loading');
-        const resultDiv = document.getElementById('result');
-
-
-//überprüfen ob wählbare eingaben Getätigt wurden
-        if (!start_datum || start_datum.trim()===""){
-            console.log ("Ich bin im if")
-            alert("Das Start Datum fehlt");
-            return;
-        }
-        if (!end_datum || end_datum.trim() === "") {
-            console.log("Ich bin im if")
-            alert("Das End Datum fehlt");
-            return;
-        }
-         if (!budget || budget.trim()===""){
-            console.log ("Ich bin im if")
-            alert("Das Budget fehlt");
-            return;
-        }
-         if (!budgettoleranz || budgettoleranz.trim()==="") {
-           console.log("Ich bin im if")
-           alert("Die Budgettoleranz fehlt");
-           return;
-         }
-         if (!mintemperatur || mintemperatur.trim()==="") {
-           console.log("Ich bin im if")
-           alert("Die Mindesttemperatur fehlt");
-           return;
-         }
-         if (!maxtemperatur || maxtemperatur.trim()==="") {
-           console.log("Ich bin im if")
-           alert("Die Maximaltemperatur fehlt");
-           return;
-         }
-
-
-        //Loading anzeigen
-        loading.style.display = "block";
-        btn.disabled = true;
-        btn.innerText = "Bitte warten...";
-
-        // Anfrage an Backend
-        try {
-            //Anzeige in der Konsole das suche Gestartet wurde
-            console.log("Anfrage gestartet")
-
-        //Effektive abfrage
-        const response = await fetch('/request', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                start_datum,
-                end_datum,
-                budget,
-                budgettoleranz,
-                mintemperatur,
-                maxtemperatur,
-                am_wasser,
-                reisestyle,
-                ferienstil,
-                ferienfokus,
-                ferienlage,
-                ferienart,
-            })
-        });
-
-            //Auf die anwort warten
-            const data = await response.json();
-
-            //Antwort in die Konsole schreiben
-            console.log("Server Antwort:", data);
-
-            //Antwort entschlüssel
-            const parsedAnswer = JSON.parse(data.answer);
-
-            //Antwort in die Carte weitergeben als liste
-            renderCards(parsedAnswer.vorschlaege);
-
-            //Fehler abfangen und in die Konsole schreiben
-        } catch (e) {
-            console.error("Fehler-Details:", e);
-            alert("Fehler beim Request oder beim Verarbeiten der Daten");
-
-
-            //Loading screen abbrechen und Button wiederfreischalten
-        } finally {
-            loading.style.display = "none";
-            btn.disabled = false;
-            btn.innerText = "Search";
-        }
-    }
-
-    async function get_img(stadt, land) {
-        const response = await fetch('/img_request', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                stadt,
-                land,
-            })
-        });
-
-
-        const img_url_answer = await response.json();
-        const img_url = img_url_answer.answer_img;
-        console.log("Responseim url:" + img_url);
-        //Antwort entschlüssel
-        return img_url;
-    }
-
-    // Karten anzeigen
-    function renderCards(vorschlaege) {
-        const start_datum = document.getElementById('Start_Datum').value;
-        const end_datum = document.getElementById('End_Datum').value;
-        currentVorschlaege = vorschlaege;
-        const resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = "";
-
-        //Karten in einer Vorschleife mit index v anzeigen
-        vorschlaege.forEach((v, index) => {
-            resultDiv.innerHTML += `
-            <div class="card"onclick="showDetails(${index})" style="cursor: pointer;">
-                <h3>${v.stadt}, ${v.land} ${start_datum} - ${end_datum}</h3>
-                <p>Kosten: ${v.geschaetzte_kosten_chf} CHF --- Temperatur: ${v.average_temp_month_in_c}°C</p>
-                <p>${v.begruendung}</p>
-            </div>
-        `;
-        });
-    }
-
-    async function showDetails(index) {
-        const v = currentVorschlaege[index];
-        const detailsDiv = document.getElementById("details-container");
-        const bildQuelle = await get_img(v.stadt, v.land);
-        // Replace the view with details or append a modal
-        detailsDiv.innerHTML = `
-        <hr>
-        <div class="details-view-card">
-        <div class="text-inhalt">
-            <h1>${v.land}</h1>
-            <h2>Details für ${v.stadt}</h2>
-            <p>Durchschnitts Temperatur von ${v.average_temp_month_in_c}°C</p>
-            <p>Durchschnitts Niederschlag von ${v.average_niederschlag_month_in_mm} mm</p>
-            <p>Sonnenstunden ${v.average_Sonnenstunden_month_in_h} h</p>
-            ${v.wasser_in_20km_radius ? `<p>Wassertemperatur: ${v.closest_water_temp_in_c}°C</p>` : ""}
-            <h2>Reisegestaltung</h2>
-            <p>Transportmittel: ${v.transportmittel}</p>
-            <p>Unterkunftsart: ${v.unterkunft_art}</p>
-            <p>Geschätzes Budget: ${v.geschaetzte_kosten_chf}</p>
-            <p>Begründung: ${v.begruendung}</p>
-        </div>
-        <img src="${bildQuelle}" alt="Reisebild" class="reise-bild-rechts">
-        </div>
-    `;
-        //Automatisch scrollen
-        detailsDiv.scrollIntoView({behavior: 'smooth', block: 'start'});
-    }
-</script>
+    <div id="result"></div>
+    <div id="details-container"></div>
+    <script src="../static/javascript/script.js"></script>
 
 </body>
 </html>
