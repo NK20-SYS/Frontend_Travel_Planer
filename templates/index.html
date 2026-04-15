@@ -3,95 +3,110 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
     <title>Reiseplaner</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.cyan.min.css"
+    >
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
-
 <body>
-    <h1>Reiseplaner</h1>
+<div class="titel">
+    Reiseplaner
+</div>
+<div class="main-container">
+    <div class="left-side">
+
 
         <!---Anreisedatum als Kalender--->
-    <label for="Start_Datum">Anreisedatum:</label>
-    <input type="date" id="Start_Datum">
+        <label for="Start_Datum">Anreisedatum:</label>
+        <input type="date" id="Start_Datum">
 
         <!---Abreisedatum als Kalender--->
-    <label for="End_Datum">Abreisedatum:</label>
-    <input type="date" id="End_Datum">
+        <label for="End_Datum">Abreisedatum:</label>
+        <input type="date" id="End_Datum">
 
         <!---Budget als Eingabefeld--->
-    <label for="Budget">Budget:</label>
-    <input type="text" id="Budget" placeholder="Budget in Fr.-?">
+        <label for="Budget">Budget:</label>
+        <input type="text" id="Budget" placeholder="Budget in Fr.-?">
 
         <!---Budgettoleranz als Eingabefeld--->
-    <label for="Budgettoleranz">Budgettoleranz:</label>
-    <input type="text" id="Budgettoleranz" placeholder="Budgettoleranz in Fr.-">
+        <label for="Budgettoleranz">Budgettoleranz:</label>
+        <input type="text" id="Budgettoleranz" placeholder="Budgettoleranz in Fr.-">
 
         <!---Reisestil als Buttonauswahl--->
-    <label for="Reisestil">Reisestil:</label>
-    <div class="travel-style-bar" id="Reisestil">
-        <button class="toggle-btn active" data-group="reisestyle" data-value="Comfort">Comfort</button>
-        <button class="toggle-btn" data-group="reisestyle" data-value="Luxus">Luxus</button>
-        <button class="toggle-btn" data-group="reisestyle" data-value="Budget">Budget</button>
-        <button class="toggle-btn" data-group="reisestyle" data-value="Adventourous">Adventourous</button>
-        <button class="toggle-btn" data-group="reisestyle" data-value="Holzklasse">Holzklasse</button>
-    </div>
+        <label for="Reisestil">Reisestil:</label>
+        <div class="travel-style-bar" id="Reisestil">
+            <button class="toggle-btn active" data-group="reisestyle" data-value="Comfort">Comfort</button>
+            <button class="toggle-btn" data-group="reisestyle" data-value="Luxus">Luxus</button>
+            <button class="toggle-btn" data-group="reisestyle" data-value="Budget">Budget</button>
+            <button class="toggle-btn" data-group="reisestyle" data-value="Adventourous">Adventourous</button>
+            <button class="toggle-btn" data-group="reisestyle" data-value="Holzklasse">Holzklasse</button>
+        </div>
 
         <!---Mindesttemperatur als Eingabefeld--->
-    <label for="Mindesttemperatur">Mindesttemperatur:</label>
-    <input type="text" id="Mindesttemperatur" placeholder="z.B. 10 Grad">
+        <label for="Mindesttemperatur">Mindesttemperatur:</label>
+        <input type="text" id="Mindesttemperatur" placeholder="z.B. 10 Grad">
 
         <!---Maximaltemperatur als Eingabefeld--->
-    <label for="Maximaltemperatur">Maximaltemperatur:</label>
-    <input type="text" id="Maximaltemperatur" placeholder="z.B. 30 Grad">
+        <label for="Maximaltemperatur">Maximaltemperatur:</label>
+        <input type="text" id="Maximaltemperatur" placeholder="z.B. 30 Grad">
 
         <!---Location am Wasser als Buttonauswahl--->
-    <label for="Am_Wasser">Möchtest du am Wasser sein?</label>
-    <div class="travel-style-bar" id="Am_Wasser">
-        <button class="toggle-btn active" data-group="wasser" data-value="Ja">Ja</button>
-        <button class="toggle-btn" data-group="wasser" data-value="Spielt keine Rolle">Spielt keine Rolle</button>
-        <button class="toggle-btn" data-group="wasser" data-value="Nein">Nein</button>
-    </div>
+        <label for="Am_Wasser">Möchtest du am Wasser sein?</label>
+        <div class="travel-style-bar" id="Am_Wasser">
+            <button class="toggle-btn active" data-group="wasser" data-value="Ja">Ja</button>
+            <button class="toggle-btn" data-group="wasser" data-value="Spielt keine Rolle">Spielt keine Rolle</button>
+            <button class="toggle-btn" data-group="wasser" data-value="Nein">Nein</button>
+        </div>
 
         <!---Ferienstil als Buttonauswahl--->
-    <label for="Ferienstil">Ferienstil:</label>
-    <div class="travel-style-bar" id="Ferienstil">
-        <button class="toggle-btn active" data-group="ferienstil" data-value="Aktiv">Aktiv</button>
-        <button class="toggle-btn" data-group="ferienstil" data-value="Beides">Beides</button>
-        <button class="toggle-btn" data-group="ferienstil" data-value="Relax">Relax</button>
-    </div>
+        <label for="Ferienstil">Ferienstil:</label>
+        <div class="travel-style-bar" id="Ferienstil">
+            <button class="toggle-btn active" data-group="ferienstil" data-value="Aktiv">Aktiv</button>
+            <button class="toggle-btn" data-group="ferienstil" data-value="Beides">Beides</button>
+            <button class="toggle-btn" data-group="ferienstil" data-value="Relax">Relax</button>
+        </div>
 
         <!---Fokus als Eingabefeld--->
-    <label for="Fokus">Fokus:</label>
-    <input type="text" id="Fokus" placeholder="z.B. Wandern">
+        <label for="Fokus">Fokus:</label>
+        <input type="text" id="Fokus" placeholder="z.B. Wandern">
 
         <!---Ferienlage als Buttonauswahl--->
-    <label for="Ferienlage">Ferienlage:</label>
-    <div class="travel-style-bar" id="Ferienlage">
-        <button class="toggle-btn active" data-group="ferienlage" data-value="Stadt">Stadt</button>
-        <button class="toggle-btn" data-group="ferienlage" data-value="Land">Land</button>
-        <button class="toggle-btn" data-group="ferienlage" data-value="Egal">Egal</button>
-    </div>
+        <label for="Ferienlage">Ferienlage:</label>
+        <div class="travel-style-bar" id="Ferienlage">
+            <button class="toggle-btn active" data-group="ferienlage" data-value="Stadt">Stadt</button>
+            <button class="toggle-btn" data-group="ferienlage" data-value="Land">Land</button>
+            <button class="toggle-btn" data-group="ferienlage" data-value="Egal">Egal</button>
+        </div>
 
         <!---Ferienart als Buttonauswahl--->
-    <label for="Ferienart">Ferienart:</label>
-    <div class="travel-style-bar" id="Ferienart">
-        <button class="toggle-btn active" data-group="ferienart" data-value="Stationaer">Stationaer</button>
-        <button class="toggle-btn" data-group="ferienart" data-value="Lagewechsel">Lagewechsel</button>
-        <button class="toggle-btn" data-group="ferienart" data-value="Roadtrip">Roadtrip</button>
-    </div>
-
+        <label for="Ferienart">Ferienart:</label>
+        <div class="travel-style-bar" id="Ferienart">
+            <button class="toggle-btn active" data-group="ferienart" data-value="Stationaer">Stationaer</button>
+            <button class="toggle-btn" data-group="ferienart" data-value="Lagewechsel">Lagewechsel</button>
+            <button class="toggle-btn" data-group="ferienart" data-value="Roadtrip">Roadtrip</button>
+        </div>
         <!---Searchbutton--->
-    <button id="sendBtn" onclick="askgemini()">Search</button>
-
-        <!---Ladebalken Reisevorschlag erstellen--->
-    <div id="loading">
-        <div class="loader"></div>
-        <p>Wir erstellen deine Reisevorschläge...</p>
+        <button id="sendBtn" onclick="askgemini()">Search</button>
     </div>
 
-    <div id="result"></div>
-    <div id="details-container"></div>
-    <script src="../static/javascript/script.js"></script>
+
+    <div class="right-side">
+        <div id="result"></div>
+
+    </div>
+</div>
+
+<!---Ladebalken Reisevorschlag erstellen--->
+<div id="loading">
+    <div class="loader"></div>
+    <p>Wir erstellen deine Reisevorschläge...</p>
+</div>
+<div id="details-container"></div>
+<script src="../static/javascript/script.js"></script>
 
 </body>
 </html>

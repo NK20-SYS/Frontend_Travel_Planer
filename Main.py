@@ -11,9 +11,9 @@ CORS(app) #Kommunikation Frontend Backend
 #Imagie, genrate Key
 PEXELS_API_KEY = 'PH7Ie6skdvcZ3ZZdaJRg1RKKoOpXDMihscO2XllBTubiIX959TYhsX0P'
 # The client gets the API key from the environment variable `GEMINI_API_KEY`.
-client = genai.Client(api_key="AIzaSyDCHlCqju9AslQ0TkJNZz9Xr4Qdo83GaY8")
+client = genai.Client(api_key="AIzaSyC4TKqDxnBaACX1nRpwccrg7qdz6Hv5AF8")
 # Model der KIi
-MODEL_ID = "gemini-2.5-flash"
+MODEL_ID = "gemini-3-flash-preview"
 
 #Aufruf des Index files
 @app.route('/')

@@ -81,7 +81,7 @@ async function askgemini() {
 
 
     // Loading anzeigen
-    loading.style.display = "block";
+    loading.style.display = 'flex';
     btn.disabled = true;
     btn.innerText = "Bitte warten...";
 
@@ -170,9 +170,13 @@ function renderCards(vorschlaege) {
     vorschlaege.forEach((v, index) => {
         resultDiv.innerHTML += `
             <div class="card"onclick="showDetails(${index})" style="cursor: pointer;">
-                <h3>${v.stadt}, ${v.land} ${start_datum} - ${end_datum}</h3>
-                <p>Kosten: ${v.geschaetzte_kosten_chf} CHF --- Temperatur: ${v.average_temp_month_in_c}°C</p>
-                <p>${v.begruendung}</p>
+                <div class="karten-titel">${v.stadt}, ${v.land}
+                </div> 
+                <div class="karten-datum">${start_datum} - ${end_datum}
+                </div>
+                <div class="karten-inhalt">
+                Kosten: ${v.geschaetzte_kosten_chf} CHF --- Temperatur: ${v.average_temp_month_in_c}°C
+                ${v.begruendung}</div>
             </div>
         `;
     });

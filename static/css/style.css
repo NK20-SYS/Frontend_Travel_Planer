@@ -1,20 +1,20 @@
+body{background-image: url(../img_background/background.jpg)!important;
+background-size: cover;
+background-position: center;
+    background-attachment: fixed;
+}
+
 /*------------------------------------------INPUT TEXT---------------------------*/
 /* Text Inputs Design */
-input [type="text"] {
-    display: block;
-    margin-bottom: 15px;
-    padding: 12px 15px;
-    width: 100%;
-    max-width: 300px;
 
-    /* Form */
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-
-    /* Farbe & Design */
-    background-color: #fff;
-    transition: all 0.3s ease-in-out;
+input[type="text"],
+input[type="date"],
+input[type="travel-style-bar"]{
+    height: auto;           /* Überschreibt Picos feste Höhe */
+    padding: 2px 5px;       /* Viel kleiner als der Standard von Pico */
+    font-size: 14px;        /* Schrift etwas verkleinern */
+    margin-bottom: 5px;
+    width: fit-content !important;/* Abstand nach unten anpassen */
 }
 
 /* Das Passiert beim aktivieren  */
@@ -24,33 +24,47 @@ input[type="text"]:focus {
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
     background-color: #fafdfa;
 }
-
-/* Styling des Platzhalter-Textes */
+.karten-titel{
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+}
+.karten-datum{
+    font-size:20px;
+    color: #1c1c1c;
+}
+.karten-inhalt{
+    font-size: 14px;
+    color:black;
+}
+/* Styling des Platzhalter-Textes *//*
 input[type="text"]::placeholder {
     color: #aaa;
     font-style: italic;
     font-size: 0.9em;
-}
+*/
 /*--------------------------------------------------------------------------------*/
 
 
 /*------------------------------------------INPUT DATUM---------------------------*/
 /*Datum Inputs Design*/
 input [type="date"] {
-    display: block;
-    margin-bottom: 15px;
-    padding: 10px 15px;
-    width: 100%; /* Passt sich dem Container an */
-    max-width: 300px;
-    /* Form */
+    font-size: 4px;
+    /*
+        display: block;
+        margin-bottom: 15px;
+        padding: 10px 15px;
+        width: 100%; /* Passt sich dem Container an *//*
+        max-width: 300px;*/
+    /* Form *//*
     border: 2px solid #e0e0e0;
-    border-radius: 12px; /* Schöne abgerundete Ecken */
+    border-radius: 12px; /* Schöne abgerundete Ecken *//*
     font-family: sans-serif;
-    font-size: 14px;
-    /* Farbe */
+
+    /* Farbe *//*
     background-color: #ffffff;
     color: #333;
-    accent-color: #4CAF50; /* Die Farbe des Kalender-Pickers */
+    accent-color: #4CAF50; /* Die Farbe des Kalender-Pickers *//*
     transition: all 0.3s ease; /* Macht den Übergang beim Klicken weich */
 }
 
@@ -66,8 +80,11 @@ input[type="date"]:focus {
 /*------------------------------------------SEARCH BUTTON---------------------------*/
 /* Search button design */
 #sendBtn {
-    background-color: #4CAF50;
-    color: white;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 300px;
+    /*background-color: #ffde00;
+    color: #65570f;
     padding: 12px 24px;
     border: none;
     border-radius: 50px;
@@ -76,15 +93,13 @@ input[type="date"]:focus {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    display: block;
-    width: 100%;
-    max-width: 300px;
+    display: block;*/
+
 }
 
-/* Hover-Effekt: Wird beim Drüberfahren aktiviert */
+/* Hover-Effekt: Wird beim Drüberfahren aktiviert *//*
 #sendBtn:hover {
-    background-color: #45a049;
+    background-color: #ff0000;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
 }
@@ -92,20 +107,32 @@ input[type="date"]:focus {
 /* Klick-Effekt */
 #sendBtn:active {
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
 }
 /*--------------------------------------------------------------------------------*/
 
-
+.titel {
+    position: absolute;
+    font-size: 100px;
+    top: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: "Brush Script MT", cursive;
+    margin: 0; /* Entfernt den Standard-Abstand nach oben und unten */
+    padding-bottom: 10px;
+    z-index: 10;
+    pointer-events: none;
+}
 /*------------------------------------------INPUT LEISTEN---------------------------*/
-/*Auswahl Leisten Design*/
+/*Auswahl Leisten Design*//*
 .travel-style-bar {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
 }
-
-/*Button nicht aktiviert, Design*/
+*/
+/*Button nicht aktiviert, Design*//*
 .toggle-btn {
     padding: 10px 15px;
     border: none;
@@ -117,14 +144,44 @@ input[type="date"]:focus {
 
 /*Button Design beim Hover*/
 .toggle-btn:hover {
-    background: #214c61;
+    background: #3c88b5;
+}
+.travel-style-bar {
+    display: flex;
+    flex-wrap: wrap; /* Falls der Platz nicht reicht, bricht es sauber um */
+    gap: 8px;        /* Etwas engerer Abstand */
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+/* Der spezifische Button-Style */
+.toggle-btn {
+    /* Wichtig: padding und width explizit setzen, um Pico zu bändigen */
+    padding: 2px 5px !important;
+    width: auto !important;
+    margin: 0 !important;
+    font-size: 14px !important;/* Pico fügt oft Ränder hinzu */
+    /* Verhindert, dass Text im Button umbricht */
+    white-space: nowrap;
 }
 
 /*Button Design bei aktivierung*/
 .toggle-btn.active {
-    background: #dc0909;
-    color: #ffffff;
+    background: #01113c;!important;
+    color: #ffffff;!important;
     font-weight: bold;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+label {
+    margin-bottom: 0 !important; /* Entfernt den Abstand unter dem Text */
+    padding-bottom: 2px !important;
+    line-height: 1.2 !important;  /* Verringert den vertikalen Platzbedarf des Texts */
+    display: block;
+    font-size: 14px !important;
+    font-weight:bold!important;
+    color: #ffffff;
+    width: fit-content!important;
+    background-color: rgba(198, 198, 198, 0) /* 10px ist oft zu klein zum Lesen, 12px ist ein guter Kompromiss */
 }
 /*--------------------------------------------------------------------------------*/
 
@@ -141,17 +198,17 @@ input[type="date"]:focus {
 
 /*3 Vorschläge Design*/
 .card {
-    background: lightskyblue;
+    background: #3eb138;
     padding: 20px;
     border-radius: 50px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    width: 400px;
+    width: 600px;
     transition: transform 0.5s ease;
 }
 
 /*3 Vorschläge Hover funktion*/
 .card:hover {
-    transform: translateY(-20px);
+    transform: translateY(-5px);
 }
 /*--------------------------------------------------------------------------------*/
 
@@ -160,7 +217,7 @@ input[type="date"]:focus {
 /*Detail Ansicht*/
 .details-view-card {
     display: flex;
-    background: lightsalmon;
+    background: #3eb038;
     justify-content: space-between;
     align-items: flex-start;
     gap: 20px;
@@ -176,6 +233,7 @@ input[type="date"]:focus {
 /*Text Inhalt der Detail anzeige*/
 .text-inhalt {
     flex: 1; /* Der Textbereich füllt den Großteil der Breite aus */
+    color: black;
 }
 
 /*Bild der Detail anzeige*/
@@ -189,23 +247,30 @@ input[type="date"]:focus {
 
 
 /*------------------------------------------LADE BALKEN---------------------------*/
-/* Loading Anzeige */
 #loading {
-    display: none;
-    margin-top: 20px;
-    text-align: center;
-    font-family: Arial;
+    display: none; /* Wird per JS auf 'flex' gesetzt */
+    position: fixed; /* Fixiert am Bildschirm, scrollt nicht mit */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Volle Breite */
+    height: 100vh; /* Volle Höhe */
+    background-color: rgba(255, 255, 255, 0.8); /* Halbtransparenter weißer Hintergrund */
+    z-index: 9999; /* Stellt sicher, dass es GANZ oben liegt */
+
+    /* Zentrierung des Inhalts (Loader + Text) */
+    display: none; /* Standardmäßig aus */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-/*Lade Balken Background*/
+/* Dein Loader-Balken */
 .loader {
-    width: 100%;
-    max-width: 300px;
+    width: 300px; /* Feste Breite für die Zentrierung */
     height: 8px;
     background: #888888;
     border-radius: 10px;
     overflow: hidden;
-    margin: auto;
     position: relative;
 }
 
@@ -215,7 +280,7 @@ input[type="date"]:focus {
     position: absolute;
     width: 40%;
     height: 100%;
-    background: #0e44f1;
+    background: #00ff4c;
     border-radius: 10px;
     animation: loading 1.7s infinite;
 }
@@ -233,5 +298,27 @@ input[type="date"]:focus {
     }
 }
 
+/*Aufteilung der Seiten*/
+.main-container {
+    display: flex; /* Aktiviert das Nebeneinander-Layout */
+    padding-top: 50px;
+    gap: 20px;    /* Abstand zwischen links und rechts */
+    align-items: flex-start; /* Verhindert, dass die Seiten unschön gestreckt werden */
+}
+/*Linke Seite Grösse*/
+.left-side {
+    flex: 1; /* Nimmt einen Teil des Platzes ein */
+
+}
+/*Rechte Seite Grösse*/
+.right-side {
+    background-color: transparent !important;
+    background: none !important;
+    border: none !important;
+    flex: 2;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 150px;
+}
 
 
