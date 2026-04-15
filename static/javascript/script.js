@@ -1,6 +1,7 @@
     // Buttons
 
     // Vorauswahl -> immer der erste Button wird "active" geschrieben:
+    let api_base_url = "test";
 let reisestyle = "Comfort";
 let am_wasser = "Ja";
 let ferienstil = "Aktiv";
@@ -91,7 +92,7 @@ async function askgemini() {
         console.log("Anfrage gestartet")
 
         // Effektive Abfrage
-        const response = await fetch('/request', {
+        const response = await fetch(`${api_base_url}/img_request`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -139,7 +140,7 @@ async function askgemini() {
 }
 
 async function get_img(stadt, land) {
-    const response = await fetch('/img_request', {
+    const response = await fetch(`${api_base_url}/img_request`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
