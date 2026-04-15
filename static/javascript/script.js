@@ -1,94 +1,34 @@
+    // Buttons
+
+    // Vorauswahl -> immer der erste Button wird "active" geschrieben:
 let reisestyle = "Comfort";
-
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".style-btn");
-
-    buttons.forEach(button => {
-        button.addEventListener("click", function () {
-            buttons.forEach(btn => btn.classList.remove("active"));
-            this.classList.add("active");
-            reisestyle = this.dataset.value;
-            console.log("Aktiv:", reisestyle);
-        });
-    });
-});
-
 let am_wasser = "Ja";
-document.addEventListener("DOMContentLoaded", function () {
-    const wasserButtons = document.querySelectorAll(".wasser-btn");
-
-    wasserButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            wasserButtons.forEach(btn => btn.classList.remove("active"));
-            this.classList.add("active");
-            am_wasser = this.dataset.value;
-            console.log("Wasser:", am_wasser);
-        });
-    });
-});
-
 let ferienstil = "Aktiv";
-
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".ferienstil-btn");
-
-    buttons.forEach(button => {
-        button.addEventListener("click", function () {
-
-            // alle deaktivieren
-            buttons.forEach(btn => btn.classList.remove("active"));
-
-            // aktuellen aktivieren
-            this.classList.add("active");
-
-            // Wert speichern
-            ferienstil = this.dataset.value;
-
-            console.log("Ferienstil:", ferienstil);
-        });
-    });
-});
-
 let ferienlage = "Stadt";
-
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".ferienlage-btn");
-
-    buttons.forEach(button => {
-        button.addEventListener("click", function () {
-
-            // alle deaktivieren
-            buttons.forEach(btn => btn.classList.remove("active"));
-
-            // aktuellen aktivieren
-            this.classList.add("active");
-
-            // Wert speichern
-            ferienlage = this.dataset.value;
-
-            console.log("Ferienlage:", ferienlage);
-        });
-    });
-});
-
 let ferienart = "Stationaer";
 
+    // Die Logik gilt für alle Buttons der Art toggle-btn:
 document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".ferienart-btn");
+    const buttons = document.querySelectorAll(".toggle-btn");
 
+    // "click" Option für die Buttons
     buttons.forEach(button => {
         button.addEventListener("click", function () {
+            const group = this.dataset.group;
 
-            // alle deaktivieren
-            buttons.forEach(btn => btn.classList.remove("active"));
+                // "Active" wird entfernt sobald ein Button angeklickt wurde
+            document
+                .querySelectorAll(`.toggle-btn[data-group="${group}"]`)
+                .forEach(btn => btn.classList.remove("active"));
 
-            // aktuellen aktivieren
+                // "Active" wird gesetzt und für jede Gruppe entsprechend gespeichert
             this.classList.add("active");
 
-            // Wert speichern
-            ferienart = this.dataset.value;
-
-            console.log("Ferienart:", ferienart);
+            if (group === "reisestyle") reisestyle = this.dataset.value;
+            if (group === "wasser") am_wasser = this.dataset.value;
+            if (group === "ferienstil") ferienstil = this.dataset.value;
+            if (group === "ferienlage") ferienlage = this.dataset.value;
+            if (group === "ferienart") ferienart = this.dataset.value;
         });
     });
 });
@@ -107,7 +47,7 @@ async function askgemini() {
     const resultDiv = document.getElementById('result');
 
 
-//überprüfen ob wählbare eingaben Getätigt wurden
+    // Überprüfen ob wählbare Eingaben getätigt wurden
     if (!start_datum || start_datum.trim() === "") {
         console.log("Ich bin im if")
         alert("Das Start Datum fehlt");
@@ -140,17 +80,17 @@ async function askgemini() {
     }
 
 
-    //Loading anzeigen
+    // Loading anzeigen
     loading.style.display = "block";
     btn.disabled = true;
     btn.innerText = "Bitte warten...";
 
     // Anfrage an Backend
     try {
-        //Anzeige in der Konsole das suche Gestartet wurde
+        // Anzeige in der Konsole dass Suche gestartet wurde
         console.log("Anfrage gestartet")
 
-        //Effektive abfrage
+        // Effektive Abfrage
         const response = await fetch('/request', {
             method: "POST",
             headers: {
@@ -172,25 +112,25 @@ async function askgemini() {
             })
         });
 
-        //Auf die anwort warten
+        // Auf die Antwort warten
         const data = await response.json();
 
-        //Antwort in die Konsole schreiben
+        // Antwort in die Konsole schreiben
         console.log("Server Antwort:", data);
 
-        //Antwort entschlüssel
+        // Antwort entschlüsselt
         const parsedAnswer = JSON.parse(data.answer);
 
-        //Antwort in die Carte weitergeben als liste
+        // Antwort in die Karte weitergeben als Liste
         renderCards(parsedAnswer.vorschlaege);
 
-        //Fehler abfangen und in die Konsole schreiben
+        // Fehler abfangen und in die Konsole schreiben
     } catch (e) {
         console.error("Fehler-Details:", e);
         alert("Fehler beim Request oder beim Verarbeiten der Daten");
 
 
-        //Loading screen abbrechen und Button wiederfreischalten
+        // Loading screen abbrechen und Button wieder freischalten
     } finally {
         loading.style.display = "none";
         btn.disabled = false;
@@ -214,7 +154,7 @@ async function get_img(stadt, land) {
     const img_url_answer = await response.json();
     const img_url = img_url_answer.answer_img;
     console.log("Responseim url:" + img_url);
-    //Antwort entschlüssel
+    // Antwort entschlüsselt
     return img_url;
 }
 
@@ -226,7 +166,7 @@ function renderCards(vorschlaege) {
     const resultDiv = document.getElementById("result");
     resultDiv.innerHTML = "";
 
-    //Karten in einer Vorschleife mit index v anzeigen
+    // Karten in einer Vorschleife mit Index v anzeigen
     vorschlaege.forEach((v, index) => {
         resultDiv.innerHTML += `
             <div class="card"onclick="showDetails(${index})" style="cursor: pointer;">
@@ -262,7 +202,7 @@ async function showDetails(index) {
         <img src="${bildQuelle}" alt="Reisebild" class="reise-bild-rechts">
         </div>
     `;
-    //Automatisch scrollen
+    // Automatisch scrollen
     detailsDiv.scrollIntoView({behavior: 'smooth', block: 'start'});
 }
 
