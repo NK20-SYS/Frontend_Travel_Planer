@@ -1,5 +1,136 @@
-/* Karten Layout */
+/*------------------------------------------INPUT TEXT---------------------------*/
+/* Text Inputs Design */
+input [type="text"] {
+    display: block;
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    width: 100%;
+    max-width: 300px;
 
+    /* Form */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+
+    /* Farbe & Design */
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Das Passiert beim aktivieren  */
+input[type="text"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    background-color: #fafdfa;
+}
+
+/* Styling des Platzhalter-Textes */
+input[type="text"]::placeholder {
+    color: #aaa;
+    font-style: italic;
+    font-size: 0.9em;
+}
+/*--------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------INPUT DATUM---------------------------*/
+/*Datum Inputs Design*/
+input [type="date"] {
+    display: block;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    width: 100%; /* Passt sich dem Container an */
+    max-width: 300px;
+    /* Form */
+    border: 2px solid #e0e0e0;
+    border-radius: 12px; /* Schöne abgerundete Ecken */
+    font-family: sans-serif;
+    font-size: 14px;
+    /* Farbe */
+    background-color: #ffffff;
+    color: #333;
+    accent-color: #4CAF50; /* Die Farbe des Kalender-Pickers */
+    transition: all 0.3s ease; /* Macht den Übergang beim Klicken weich */
+}
+
+/* Passiert beim aktivieren */
+input[type="date"]:focus {
+    border-color: #4CAF50; /* Rahmen farbe */
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); /* Sanfter grüner Schein */
+    outline: none;
+}
+/*--------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------SEARCH BUTTON---------------------------*/
+/* Search button design */
+#sendBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Hover-Effekt: Wird beim Drüberfahren aktiviert */
+#sendBtn:hover {
+    background-color: #45a049;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Klick-Effekt */
+#sendBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/*--------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------INPUT LEISTEN---------------------------*/
+/*Auswahl Leisten Design*/
+.travel-style-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/*Button nicht aktiviert, Design*/
+.toggle-btn {
+    padding: 10px 15px;
+    border: none;
+    background: #5cbff5;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/*Button Design beim Hover*/
+.toggle-btn:hover {
+    background: #214c61;
+}
+
+/*Button Design bei aktivierung*/
+.toggle-btn.active {
+    background: #dc0909;
+    color: #ffffff;
+    font-weight: bold;
+}
+/*--------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------3-VORSCHLÄGE---------------------------*/
+/* Vorschläge Layout */
 #result {
     display: flex;
     gap: 15px;
@@ -8,24 +139,25 @@
     margin-top: 20px;
 }
 
-.details-view.card {
-    display: flex; /* Aktiviert Flexbox */
-    flex-direction: row; /* Richtet Elemente nebeneinander aus */
-    gap: 20px; /* Fügt einen Abstand zwischen Text und Bild ein */
-    align-items: flex-start; /* Richtet Elemente oben aus */
+/*3 Vorschläge Design*/
+.card {
+    background: lightskyblue;
+    padding: 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    transition: transform 0.5s ease;
 }
 
-.text-inhalt {
-    flex: 1; /* Der Textbereich füllt den Großteil der Breite aus */
+/*3 Vorschläge Hover funktion*/
+.card:hover {
+    transform: translateY(-20px);
 }
+/*--------------------------------------------------------------------------------*/
 
-.reise-bild-rechts {
-    width: 600px; /* Feste Breite für das Bild */
-    height: auto; /* Automatische Höhe für das Bild */
-    object-fit: cover; /* WICHTIG: Bild wird nicht verzerrt, sondern passend beschnitten */
-    border-radius: 8px; /* Optionale abgerundete Ecken für das Bild */
-}
 
+/*------------------------------------------DETAIL-ANSICHT---------------------------*/
+/*Detail Ansicht*/
 .details-view-card {
     display: flex;
     background: lightsalmon;
@@ -41,28 +173,23 @@
     box-sizing: border-box; /* SEHR WICHTIG: Padding wird in die Breite eingerechnet */
 }
 
-.card {
-    background: lightskyblue;
-    padding: 20px;
-    border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    width: 400px;
-    transition: transform 0.5s ease;
+/*Text Inhalt der Detail anzeige*/
+.text-inhalt {
+    flex: 1; /* Der Textbereich füllt den Großteil der Breite aus */
 }
 
-.card:hover {
-    transform: translateY(-5px);
+/*Bild der Detail anzeige*/
+.reise-bild-rechts {
+    width: 600px; /* Feste Breite für das Bild */
+    height: auto; /* Automatische Höhe für das Bild */
+    object-fit: cover; /* WICHTIG: Bild wird nicht verzerrt, sondern passend beschnitten */
+    border-radius: 8px; /* Optionale abgerundete Ecken für das Bild */
 }
+/*--------------------------------------------------------------------------------*/
 
-/* Inputs */
-input {
-    display: block;
-    margin-bottom: 10px;
-    padding: 8px;
-    width: 300px;
-}
 
-/* Loading */
+/*------------------------------------------LADE BALKEN---------------------------*/
+/* Loading Anzeige */
 #loading {
     display: none;
     margin-top: 20px;
@@ -70,30 +197,33 @@ input {
     font-family: Arial;
 }
 
+/*Lade Balken Background*/
 .loader {
     width: 100%;
     max-width: 300px;
     height: 8px;
-    background: #eee;
+    background: #888888;
     border-radius: 10px;
     overflow: hidden;
     margin: auto;
     position: relative;
 }
 
+/*Animation Design Lade Balken*/
 .loader::before {
     content: "";
     position: absolute;
     width: 40%;
     height: 100%;
-    background: #4CAF50;
+    background: #0e44f1;
     border-radius: 10px;
-    animation: loading 1.2s infinite;
+    animation: loading 1.7s infinite;
 }
 
+/*Animation des Ladebalkens*/
 @keyframes loading {
     0% {
-        left: -40%;
+        left: -80%;
     }
     50% {
         left: 30%;
@@ -104,103 +234,4 @@ input {
 }
 
 
-.travel-style-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
 
-.style-btn {
-    padding: 10px 15px;
-    border: none;
-    background: #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.style-btn:hover {
-    background: #bbb;
-}
-
-.style-btn.active {
-    background: #4CAF50;
-    color: white;
-    font-weight: bold;
-}
-
-.wasser-btn {
-    padding: 10px 15px;
-    border: none;
-    background: #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.wasser-btn:hover {
-    background: #bbb;
-}
-
-.wasser-btn.active {
-    background: #4CAF50;
-    color: white;
-    font-weight: bold;
-}
-
-.ferienstil-btn {
-    padding: 10px 15px;
-    border: none;
-    background: #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.ferienstil-btn:hover {
-    background: #bbb;
-}
-
-.ferienstil-btn.active {
-    background: #4CAF50;
-    color: white;
-    font-weight: bold;
-}
-
-.ferienlage-btn {
-    padding: 10px 15px;
-    border: none;
-    background: #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.ferienlage-btn:hover {
-    background: #bbb;
-}
-
-.ferienlage-btn.active {
-    background: #4CAF50;
-    color: white;
-    font-weight: bold;
-}
-
-.ferienart-btn {
-    padding: 10px 15px;
-    border: none;
-    background: #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.ferienart-btn:hover {
-    background: #bbb;
-}
-
-.ferienart-btn.active {
-    background: #4CAF50;
-    color: white;
-    font-weight: bold;
-}
