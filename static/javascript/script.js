@@ -1,7 +1,7 @@
     // Buttons
 
     // Vorauswahl -> immer der erste Button wird "active" geschrieben:
-    let api_base_url = "test";
+    let api_base_url = "https://backend-travel-planer.onrender.com";
 let reisestyle = "Comfort";
 let am_wasser = "Ja";
 let ferienstil = "Aktiv";
