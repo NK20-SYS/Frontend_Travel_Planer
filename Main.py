@@ -11,7 +11,7 @@ CORS(app) #Kommunikation Frontend Backend
 # The client gets the API key from the environment variable `GEMINI_API_KEY`.
 client = genai.Client(api_key="")
 # Model der KIi
-MODEL_ID = "gemini-3-flash-preview"
+MODEL_ID = "gemini-2.5-flash"
 
 #Aufruf des Index files
 @app.route('/')
@@ -40,16 +40,23 @@ class ReiseEmpfehlungen(BaseModel):
 def get_travel_recommendations():
     #Variablen übernahme aus dem Frontend
     data = request.json
-    budget = data.get("budget" "")
-    startdatum = data.get("start_datum" "")
-    enddatum = data.get("end_datum" "")
-    temperatur = data.get("temperatur" "")
-    wassernaehe = data.get("am_wasser" "")
-    reise_stil = data.get("reisestyle" "")
+    startdatum = data.get("start_datum", "")
+    enddatum = data.get("end_datum", "")
+    budget = data.get("budget", "")
+    budgettoleranz = data.get("budgettoleranz", "")
+    reise_stil = data.get("reisestyle", "")
+    mintemperatur = data.get("mintemperatur", "")
+    maxtemperatur = data.get("maxtemperatur", "")
+    wassernaehe = data.get("am_wasser", "")
+    ferienstil = data.get("ferienstil", "")
+    ferienfokus = data.get("ferienfokus", "")
+    ferienlage = data.get("ferienlage", "")
+    ferienart = data.get("ferienart", "")
+
 
     #Sendung des Prompts an die KI
     try:
-        prompt = f"Ich plane eine Reise ab Zuerich. Vom {startdatum} bis {enddatum},Budget von {budget} fr.-. Temperatur: {temperatur} In Wassernähe: {wassernaehe} Reisestyl: {reise_stil} Gebe exakt 3 Vorschlaege"
+        prompt = f"Ich plane eine Reise ab Zuerich. Vom {startdatum} bis {enddatum},Budget von {budget} fr.- mit Budgettoleranz von {budgettoleranz} fr.-. Temperatur: Von {mintemperatur} bis {maxtemperatur} In Wassernähe: {wassernaehe} Reisestyl: {reise_stil} Ferienstil: {ferienstil} Ferienfokus: {ferienfokus} Ferienlage: {ferienlage} Ferienart: {ferienart} Gebe exakt 3 Vorschlaege"
         response = client.models.generate_content(
             model=MODEL_ID,
             contents=prompt,
