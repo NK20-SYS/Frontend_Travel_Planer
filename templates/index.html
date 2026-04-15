@@ -91,49 +91,286 @@
             animation: loading 1.2s infinite;
         }
 
-        @keyframes loading {
-            0% {
-                left: -40%;
-            }
-            50% {
-                left: 30%;
-            }
-            100% {
-                left: 100%;
-            }
-        }
-    </style>
+    @keyframes loading {
+        0% { left: -40%; }
+        50% { left: 30%; }
+        100% { left: 100%; }
+    }
+
+
+    .travel-style-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .style-btn {
+        padding: 10px 15px;
+        border: none;
+        background: #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .style-btn:hover {
+        background: #bbb;
+    }
+
+    .style-btn.active {
+        background: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+    .wasser-btn {
+        padding: 10px 15px;
+        border: none;
+        background: #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .wasser-btn:hover {
+        background: #bbb;
+    }
+
+    .wasser-btn.active {
+        background: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+    .ferienstil-btn {
+        padding: 10px 15px;
+        border: none;
+        background: #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .ferienstil-btn:hover {
+        background: #bbb;
+    }
+
+    .ferienstil-btn.active {
+        background: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+    .ferienlage-btn {
+        padding: 10px 15px;
+        border: none;
+        background: #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .ferienlage-btn:hover {
+        background: #bbb;
+    }
+
+    .ferienlage-btn.active {
+        background: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+    .ferienart-btn {
+        padding: 10px 15px;
+        border: none;
+        background: #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .ferienart-btn:hover {
+        background: #bbb;
+    }
+
+    .ferienart-btn.active {
+        background: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+
+</style>
+
+<script>
+let reisestyle = "Comfort";
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".style-btn");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", function () {
+            buttons.forEach(btn => btn.classList.remove("active"));
+            this.classList.add("active");
+            reisestyle = this.dataset.value;
+            console.log("Aktiv:", reisestyle);
+        });
+    });
+});
+
+let am_wasser = "Ja";
+document.addEventListener("DOMContentLoaded", function () {
+    const wasserButtons = document.querySelectorAll(".wasser-btn");
+
+    wasserButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            wasserButtons.forEach(btn => btn.classList.remove("active"));
+            this.classList.add("active");
+            am_wasser = this.dataset.value;
+            console.log("Wasser:", am_wasser);
+        });
+    });
+});
+
+let ferienstil = "Aktiv";
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".ferienstil-btn");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", function () {
+
+            // alle deaktivieren
+            buttons.forEach(btn => btn.classList.remove("active"));
+
+            // aktuellen aktivieren
+            this.classList.add("active");
+
+            // Wert speichern
+            ferienstil = this.dataset.value;
+
+            console.log("Ferienstil:", ferienstil);
+        });
+    });
+});
+
+let ferienlage = "Stadt";
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".ferienlage-btn");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", function () {
+
+            // alle deaktivieren
+            buttons.forEach(btn => btn.classList.remove("active"));
+
+            // aktuellen aktivieren
+            this.classList.add("active");
+
+            // Wert speichern
+            ferienlage = this.dataset.value;
+
+            console.log("Ferienlage:", ferienlage);
+        });
+    });
+});
+
+let ferienart = "Stationaer";
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".ferienart-btn");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", function () {
+
+            // alle deaktivieren
+            buttons.forEach(btn => btn.classList.remove("active"));
+
+            // aktuellen aktivieren
+            this.classList.add("active");
+
+            // Wert speichern
+            ferienart = this.dataset.value;
+
+            console.log("Ferienart:", ferienart);
+        });
+    });
+});
+
+
+</script>
+
 
 </head>
 
 <body>
 <h1>Reiseplaner</h1>
-<input type="text" id="Budget" placeholder="Budget in FR.-?">
+
 <label for="Start_Datum">Anreisedatum:</label>
 <input type="date" id="Start_Datum">
+
 <label for="End_Datum">Abreisedatum:</label>
 <input type="date" id="End_Datum">
-<label for="Temperatur">Wähle eine Temperatur:</label>
-<select name="Temperatur" id="Temperatur">
-    <option value="Warm">Warm</option>
-    <option value="Angenehm">Angenehm</option>
-    <option value="Frisch">Frisch</option>
-    <option value="Kalt">Kalt</option>
-</select>
-<label for="Am_Wasser">Möchtest du am Wasser sein?</label>
-<select name="Am_Wasser?" id="Am_Wasser">
-    <option value="Ja">Ja</option>
-    <option value="Spielt keine Rolle">Spielt keine Rolle</option>
-    <option value="Nein">Nein</option>
-</select>
-<label for="Reisestyle">Wie Möchtest du Reisen?</label>
+
+<label for="Budget">Budget:</label>
+<input type="text" id="Budget" placeholder="Budget in Fr.-?">
+
+<label for="Budgettoleranz">Budgettoleranz:</label>
+<input type="text" id="Budgettoleranz" placeholder="Budgettoleranz in Fr.-">
+
+<label for="Reisestil">Reisestil:</label>
+<div class="travel-style-bar" id="Reisestil">
+    <button class="style-btn active" data-value="Comfort">Comfort</button>
+    <button class="style-btn" data-value="Luxus">Luxus</button>
+    <button class="style-btn" data-value="Budget">Budget</button>
+    <button class="style-btn" data-value="Adventourous">Adventourous</button>
+    <button class="style-btn" data-value="Holzklasse">Holzklasse</button>
+</div>
+
+<!---<label for="Reisestyle">Wie Möchtest du Reisen?</label>
 <select name="Reisestyle" id="Reisestyle">
-    <option value="Comfort">Comfort</option>
-    <option value="Luxus">Luxus</option>
-    <option value="Budget">Budget</option>
-    <option value="Adventourous">Adventourous</option>
-    <option value="Holzklasse">Holzklasse</option>
-</select>
+  <option value="Comfort">Comfort</option>
+  <option value="Luxus">Luxus</option>
+  <option value="Budget">Budget</option>
+  <option value="Adventourous">Adventourous</option>
+  <option value="Holzklasse">Holzklasse</option>
+</select><br><br>--->
+
+
+<label for="Mindesttemperatur">Mindesttemperatur:</label>
+<input type="text" id="Mindesttemperatur" placeholder="z.B. 10 Grad">
+
+<label for="Maximaltemperatur">Maximaltemperatur:</label>
+<input type="text" id="Maximaltemperatur" placeholder="z.B. 30 Grad">
+
+
+
+<label for="Am_Wasser">Möchtest du am Wasser sein?</label>
+<div class="travel-style-bar" id="Am_Wasser">
+    <button type="button" class="wasser-btn active" data-value="Ja">Ja</button>
+    <button type="button" class="wasser-btn" data-value="Spielt keine Rolle">Spielt keine Rolle</button>
+    <button type="button" class="wasser-btn" data-value="Nein">Nein</button>
+</div>
+
+<label for="Ferienstil">Ferienstil:</label>
+<div class="travel-style-bar" id="Ferienstil">
+    <button type="button" class="ferienstil-btn active" data-value="Aktiv">Aktiv</button>
+    <button type="button" class="ferienstil-btn" data-value="Beides">Beides</button>
+    <button type="button" class="ferienstil-btn" data-value="Relax">Relax</button>
+</div>
+
+<label for="Fokus">Fokus:</label>
+<input type="text" id="Fokus" placeholder="z.B. Wandern">
+
+<label for="Ferienlage">Ferienlage:</label>
+<div class="travel-style-bar" id="Ferienlage">
+    <button type="button" class="ferienlage-btn active" data-value="Stadt">Stadt</button>
+    <button type="button" class="ferienlage-btn" data-value="Land">Land</button>
+    <button type="button" class="ferienlage-btn" data-value="Egal">Egal</button>
+</div>
+<label for="Ferienart">Ferienart:</label>
+<div class="travel-style-bar" id="Ferienart">
+    <button type="button" class="ferienart-btn active" data-value="Stationaer">Stationaer</button>
+    <button type="button" class="ferienart-btn" data-value="Lagewechsel">Lagewechsel</button>
+    <button type="button" class="ferienart-btn" data-value="Roadtrip">Roadtrip</button>
+</div>
+
 <button id="sendBtn" onclick="askgemini()">Search</button>
 
 <div id="loading">
@@ -148,25 +385,21 @@
 
     async function askgemini() {
 //Variabeln Zuteilung nach dem einlesen
-        const budget = document.getElementById('Budget').value;
         const start_datum = document.getElementById('Start_Datum').value;
         const end_datum = document.getElementById('End_Datum').value;
-        const temperatur = document.getElementById('Temperatur').value;
-        const am_wasser = document.getElementById('Am_Wasser').value;
-        const reisestyle = document.getElementById('Reisestyle').value;
+        const budget = document.getElementById('Budget').value;
+        const budgettoleranz = document.getElementById('Budgettoleranz').value;
+        const mintemperatur = document.getElementById('Mindesttemperatur').value;
+        const maxtemperatur = document.getElementById('Maximaltemperatur').value;
+        const ferienfokus = document.getElementById('Fokus').value;
         const btn = document.getElementById('sendBtn');
         const loading = document.getElementById('loading');
         const resultDiv = document.getElementById('result');
 
 
 //überprüfen ob wählbare eingaben Getätigt wurden
-        if (!budget || budget.trim() === "") {
-            console.log("Ich bin im if")
-            alert("Das Budget fehlt");
-            return;
-        }
-        if (!start_datum || start_datum.trim() === "") {
-            console.log("Ich bin im if")
+        if (!start_datum || start_datum.trim()===""){
+            console.log ("Ich bin im if")
             alert("Das Start Datum fehlt");
             return;
         }
@@ -175,6 +408,26 @@
             alert("Das End Datum fehlt");
             return;
         }
+         if (!budget || budget.trim()===""){
+            console.log ("Ich bin im if")
+            alert("Das Budget fehlt");
+            return;
+        }
+         if (!budgettoleranz || budgettoleranz.trim()==="") {
+           console.log("Ich bin im if")
+           alert("Die Budgettoleranz fehlt");
+           return;
+         }
+         if (!mintemperatur || mintemperatur.trim()==="") {
+           console.log("Ich bin im if")
+           alert("Die Mindesttemperatur fehlt");
+           return;
+         }
+         if (!maxtemperatur || maxtemperatur.trim()==="") {
+           console.log("Ich bin im if")
+           alert("Die Maximaltemperatur fehlt");
+           return;
+         }
 
 
         //Loading anzeigen
@@ -187,21 +440,27 @@
             //Anzeige in der Konsole das suche Gestartet wurde
             console.log("Anfrage gestartet")
 
-            //Effektive abfrage
-            const response = await fetch('/request', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    budget,
-                    start_datum,
-                    end_datum,
-                    temperatur,
-                    am_wasser,
-                    reisestyle
-                })
-            });
+        //Effektive abfrage
+        const response = await fetch('/request', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                start_datum,
+                end_datum,
+                budget,
+                budgettoleranz,
+                mintemperatur,
+                maxtemperatur,
+                am_wasser,
+                reisestyle,
+                ferienstil,
+                ferienfokus,
+                ferienlage,
+                ferienart,
+            })
+        });
 
             //Auf die anwort warten
             const data = await response.json();
