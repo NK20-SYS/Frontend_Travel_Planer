@@ -1,68 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Reiseplaner</title>
+    <meta charset="UTF-8">
+    <title>Reiseplaner</title>
 
-<style>
-    /* Karten Layout */
-    #result {
-        display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 20px;
-    }
+    <style>
+        /* Karten Layout */
+        #result {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
-    .card {
-        background: blue;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        width: 300px;
-        transition: transform 0.2s ease;
-    }
+        .details-view.card {
+            display: flex; /* Aktiviert Flexbox */
+            flex-direction: row; /* Richtet Elemente nebeneinander aus */
+            gap: 20px; /* Fügt einen Abstand zwischen Text und Bild ein */
+            align-items: flex-start; /* Richtet Elemente oben aus */
+        }
 
-    .card:hover {
-        transform: translateY(-5px);
-    }
+        .text-inhalt {
+            flex: 1; /* Der Textbereich füllt den Großteil der Breite aus */
+        }
 
-    /* Inputs */
-    input {
-        display: block;
-        margin-bottom: 10px;
-        padding: 8px;
-        width: 300px;
-    }
+        .reise-bild-rechts {
+            width: 600px; /* Feste Breite für das Bild */
+            height: auto; /* Automatische Höhe für das Bild */
+            object-fit: cover; /* WICHTIG: Bild wird nicht verzerrt, sondern passend beschnitten */
+            border-radius: 8px; /* Optionale abgerundete Ecken für das Bild */
+        }
 
-    /* Loading */
-    #loading {
-        display: none;
-        margin-top: 20px;
-        text-align: center;
-        font-family: Arial;
-    }
+        .details-view-card {
+            display: flex;
+            background: lightsalmon;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+            width: 95%; /* Nutzt fast die volle Breite des Eltern-Elements */
+            max-width: 1200px; /* Verhindert, dass die Zeilen zu lang zum Lesen werden */
+            margin: 20px auto; /* Zentriert die Box, falls sie kleiner als der Bildschirm ist */
+            box-sizing: border-box; /* SEHR WICHTIG: Padding wird in die Breite eingerechnet */
+        }
 
-    .loader {
-        width: 100%;
-        max-width: 300px;
-        height: 8px;
-        background: #eee;
-        border-radius: 10px;
-        overflow: hidden;
-        margin: auto;
-        position: relative;
-    }
+        .card {
+            background: lightskyblue;
+            padding: 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 400px;
+            transition: transform 0.5s ease;
+        }
 
-    .loader::before {
-        content: "";
-        position: absolute;
-        width: 40%;
-        height: 100%;
-        background: #4CAF50;
-        border-radius: 10px;
-        animation: loading 1.2s infinite;
-    }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Inputs */
+        input {
+            display: block;
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 300px;
+        }
+
+        /* Loading */
+        #loading {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            font-family: Arial;
+        }
+
+        .loader {
+            width: 100%;
+            max-width: 300px;
+            height: 8px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: auto;
+            position: relative;
+        }
+
+        .loader::before {
+            content: "";
+            position: absolute;
+            width: 40%;
+            height: 100%;
+            background: #4CAF50;
+            border-radius: 10px;
+            animation: loading 1.2s infinite;
+        }
 
     @keyframes loading {
         0% { left: -40%; }
@@ -312,13 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
 <label for="Maximaltemperatur">Maximaltemperatur:</label>
 <input type="text" id="Maximaltemperatur" placeholder="z.B. 30 Grad">
 
-<!---<label for="Temperatur">Wähle eine Temperatur:</label>
-<select name="Temperatur" id="Temperatur">
-  <option value="Warm">Warm</option>
-  <option value="Angenehm">Angenehm</option>
-  <option value="Frisch">Frisch</option>
-  <option value="Kalt">Kalt</option>
-</select><br><br>--->
+
 
 <label for="Am_Wasser">Möchtest du am Wasser sein?</label>
 <div class="travel-style-bar" id="Am_Wasser">
@@ -326,12 +353,6 @@ document.addEventListener("DOMContentLoaded", function () {
     <button type="button" class="wasser-btn" data-value="Spielt keine Rolle">Spielt keine Rolle</button>
     <button type="button" class="wasser-btn" data-value="Nein">Nein</button>
 </div>
-<!---<label for="Am_Wasser">Möchtest du am Wasser sein?</label>
-<select name="Am_Wasser?" id="Am_Wasser">
-  <option value="Ja">Ja</option>
-  <option value="Spielt keine Rolle">Spielt keine Rolle</option>
-  <option value="Nein">Nein</option>
-</select><br><br>--->
 
 <label for="Ferienstil">Ferienstil:</label>
 <div class="travel-style-bar" id="Ferienstil">
@@ -339,12 +360,6 @@ document.addEventListener("DOMContentLoaded", function () {
     <button type="button" class="ferienstil-btn" data-value="Beides">Beides</button>
     <button type="button" class="ferienstil-btn" data-value="Relax">Relax</button>
 </div>
-<!---<label for="Ferienstil">Ferienstil:</label>
-<select name="Ferienstil" id="Ferienstil">
-  <option value="Aktiv">Aktiv</option>
-  <option value="Beides">Beides</option>
-  <option value="Relax">Relax</option>
-</select><br><br>--->
 
 <label for="Fokus">Fokus:</label>
 <input type="text" id="Fokus" placeholder="z.B. Wandern">
@@ -355,25 +370,12 @@ document.addEventListener("DOMContentLoaded", function () {
     <button type="button" class="ferienlage-btn" data-value="Land">Land</button>
     <button type="button" class="ferienlage-btn" data-value="Egal">Egal</button>
 </div>
-<!---<label for="Ferienlage">Ferienlage:</label>
-<select name="Ferienlage" id="Ferienlage">
-  <option value="Stadt">Stadt</option>
-  <option value="Land">Land</option>
-  <option value="Egal">Egal</option>
-</select><br><br>--->
-
 <label for="Ferienart">Ferienart:</label>
 <div class="travel-style-bar" id="Ferienart">
     <button type="button" class="ferienart-btn active" data-value="Stationaer">Stationaer</button>
     <button type="button" class="ferienart-btn" data-value="Lagewechsel">Lagewechsel</button>
     <button type="button" class="ferienart-btn" data-value="Roadtrip">Roadtrip</button>
 </div>
-<!---<label for="Ferienart">Ferienart:</label>
-<select name="Ferienart" id="Ferienart">
-  <option value="Stationaer">Stationaer</option>
-  <option value="Lagewechsel">Lagewechsel</option>
-  <option value="Roadtrip">Roadtrip</option>
-</select><br><br>--->
 
 <button id="sendBtn" onclick="askgemini()">Search</button>
 
@@ -383,7 +385,9 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 
 <div id="result"></div>
+<div id="details-container"></div>
 <script>
+
 
     async function askgemini() {
 //Variabeln Zuteilung nach dem einlesen
@@ -393,16 +397,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const budgettoleranz = document.getElementById('Budgettoleranz').value;
         const mintemperatur = document.getElementById('Mindesttemperatur').value;
         const maxtemperatur = document.getElementById('Maximaltemperatur').value;
-        //const temperatur = document.getElementById('Temperatur').value;
-        //const am_wasser = document.getElementById('Am_Wasser').value;
-        //const reisestyle = document.getElementById('Reisestyle').value;
-        //const ferienstil = document.getElementById('Ferienstil').value;
         const ferienfokus = document.getElementById('Fokus').value;
-        //const ferienlage = document.getElementById('Ferienlage').value;
-        //const ferienart = document.getElementById('Ferienart').value;
         const btn = document.getElementById('sendBtn');
         const loading = document.getElementById('loading');
         const resultDiv = document.getElementById('result');
+
 
 //überprüfen ob wählbare eingaben Getätigt wurden
         if (!start_datum || start_datum.trim()===""){
@@ -410,8 +409,8 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Das Start Datum fehlt");
             return;
         }
-        if (!end_datum || end_datum.trim()===""){
-            console.log ("Ich bin im if")
+        if (!end_datum || end_datum.trim() === "") {
+            console.log("Ich bin im if")
             alert("Das End Datum fehlt");
             return;
         }
@@ -437,15 +436,15 @@ document.addEventListener("DOMContentLoaded", function () {
          }
 
 
-    //Loading anzeigen
-    loading.style.display = "block";
-    btn.disabled = true;
-    btn.innerText = "Bitte warten...";
+        //Loading anzeigen
+        loading.style.display = "block";
+        btn.disabled = true;
+        btn.innerText = "Bitte warten...";
 
         // Anfrage an Backend
-        try{
-        //Anzeige in der Konsole das suche Gestartet wurde
-        console.log ("Anfrage gestartet")
+        try {
+            //Anzeige in der Konsole das suche Gestartet wurde
+            console.log("Anfrage gestartet")
 
         //Effektive abfrage
         const response = await fetch('/request', {
@@ -469,55 +468,99 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         });
 
-        //Auf die anwort warten
-        const data = await response.json();
+            //Auf die anwort warten
+            const data = await response.json();
 
-        //Antwort in die Konsole schreiben
-        console.log("Server Antwort:", data);
+            //Antwort in die Konsole schreiben
+            console.log("Server Antwort:", data);
 
-        //Antwort entschlüssel
-        const parsedAnswer = JSON.parse(data.answer);
+            //Antwort entschlüssel
+            const parsedAnswer = JSON.parse(data.answer);
 
-        //Antwort in die Carte weitergeben als liste
-        renderCards(parsedAnswer.vorschlaege);
+            //Antwort in die Carte weitergeben als liste
+            renderCards(parsedAnswer.vorschlaege);
 
-        //Fehler abfangen und in die Konsole schreiben
-    } catch (e) {
-        console.error("Fehler-Details:", e);
-    alert("Fehler beim Request oder beim Verarbeiten der Daten");
+            //Fehler abfangen und in die Konsole schreiben
+        } catch (e) {
+            console.error("Fehler-Details:", e);
+            alert("Fehler beim Request oder beim Verarbeiten der Daten");
 
 
-        //Loading screen abbrechen und Button wiederfreischalten
-    } finally {
-        loading.style.display = "none";
-        btn.disabled = false;
-        btn.innerText = "Search";
+            //Loading screen abbrechen und Button wiederfreischalten
+        } finally {
+            loading.style.display = "none";
+            btn.disabled = false;
+            btn.innerText = "Search";
+        }
     }
-}
+
+    async function get_img(stadt, land) {
+        const response = await fetch('/img_request', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                stadt,
+                land,
+            })
+        });
 
 
-// Karten anzeigen
-function renderCards(vorschlaege) {
+        const img_url_answer = await response.json();
+        const img_url = img_url_answer.answer_img;
+        console.log("Responseim url:" + img_url);
+        //Antwort entschlüssel
+        return img_url;
+    }
 
-    const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = "";
+    // Karten anzeigen
+    function renderCards(vorschlaege) {
+        const start_datum = document.getElementById('Start_Datum').value;
+        const end_datum = document.getElementById('End_Datum').value;
+        currentVorschlaege = vorschlaege;
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = "";
 
-    //Karten in einer Vorschleife mit index v anzeigen
-    vorschlaege.forEach(v => {
-        resultDiv.innerHTML += `
-            <div class="card">
-                <h3>${v.stadt}, ${v.land}</h3>
+        //Karten in einer Vorschleife mit index v anzeigen
+        vorschlaege.forEach((v, index) => {
+            resultDiv.innerHTML += `
+            <div class="card"onclick="showDetails(${index})" style="cursor: pointer;">
+                <h3>${v.stadt}, ${v.land} ${start_datum} - ${end_datum}</h3>
+                <p>Kosten: ${v.geschaetzte_kosten_chf} CHF --- Temperatur: ${v.average_temp_month_in_c}°C</p>
                 <p>${v.begruendung}</p>
-                <p>Kosten: ${v.geschaetzte_kosten_chf} CHF</p>
-                <p>Temperatur: ${v.average_temp_month_in_c}°C</p>
-                <p>Wasser: ${v.wasser_in_20km_radius ? "Ja" : "Nein"}</p>
-                <p>Unterkunft: ${v.unterkunft_art}</p>
-                <p>Transport: ${v.transportmittel}</p>
             </div>
         `;
-    });
-}
+        });
+    }
 
+    async function showDetails(index) {
+        const v = currentVorschlaege[index];
+        const detailsDiv = document.getElementById("details-container");
+        const bildQuelle = await get_img(v.stadt, v.land);
+        // Replace the view with details or append a modal
+        detailsDiv.innerHTML = `
+        <hr>
+        <div class="details-view-card">
+        <div class="text-inhalt">
+            <h1>${v.land}</h1>
+            <h2>Details für ${v.stadt}</h2>
+            <p>Durchschnitts Temperatur von ${v.average_temp_month_in_c}°C</p>
+            <p>Durchschnitts Niederschlag von ${v.average_niederschlag_month_in_mm} mm</p>
+            <p>Sonnenstunden ${v.average_Sonnenstunden_month_in_h} h</p>
+            ${v.wasser_in_20km_radius ? `<p>Wassertemperatur: ${v.closest_water_temp_in_c}°C</p>` : ""}
+            <h2>Reisegestaltung</h2>
+            <p>Transportmittel: ${v.transportmittel}</p>
+            <p>Unterkunftsart: ${v.unterkunft_art}</p>
+            <p>Geschätzes Budget: ${v.geschaetzte_kosten_chf}</p>
+            <p>Begründung: ${v.begruendung}</p>
+        </div>
+        <img src="${bildQuelle}" alt="Reisebild" class="reise-bild-rechts">
+        </div>
+    `;
+        //Automatisch scrollen
+        detailsDiv.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
 </script>
 
 </body>
