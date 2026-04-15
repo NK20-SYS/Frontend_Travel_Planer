@@ -13,31 +13,37 @@
             justify-content: center;
             margin-top: 20px;
         }
+
         .details-view.card {
             display: flex; /* Aktiviert Flexbox */
-    flex-direction: row; /* Richtet Elemente nebeneinander aus */
-    gap: 20px; /* Fügt einen Abstand zwischen Text und Bild ein */
-    align-items: flex-start; /* Richtet Elemente oben aus */
+            flex-direction: row; /* Richtet Elemente nebeneinander aus */
+            gap: 20px; /* Fügt einen Abstand zwischen Text und Bild ein */
+            align-items: flex-start; /* Richtet Elemente oben aus */
         }
-        .text-inhalt {
-    flex: 1; /* Der Textbereich füllt den Großteil der Breite aus */
-}.reise-bild-rechts {
-    width: 250px; /* Feste Breite für das Bild */
-    height: 300px; /* Feste Höhe für das Bild */
-    object-fit: cover; /* WICHTIG: Bild wird nicht verzerrt, sondern passend beschnitten */
-    border-radius: 8px; /* Optionale abgerundete Ecken für das Bild */
 
-    /* Um es exakt oben rechts zu fixieren, falls der Text sehr lang wird */
-    margin-top: 10px;
-}
+        .text-inhalt {
+            flex: 1; /* Der Textbereich füllt den Großteil der Breite aus */
+        }
+
+        .reise-bild-rechts {
+            width: 600px; /* Feste Breite für das Bild */
+            height: auto; /* Automatische Höhe für das Bild */
+            object-fit: cover; /* WICHTIG: Bild wird nicht verzerrt, sondern passend beschnitten */
+            border-radius: 8px; /* Optionale abgerundete Ecken für das Bild */
+        }
+
         .details-view-card {
+            display: flex;
             background: lightsalmon;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
-            width: 95%;           /* Nutzt fast die volle Breite des Eltern-Elements */
-            max-width: 1200px;    /* Verhindert, dass die Zeilen zu lang zum Lesen werden */
-            margin: 20px auto;    /* Zentriert die Box, falls sie kleiner als der Bildschirm ist */
+            width: 95%; /* Nutzt fast die volle Breite des Eltern-Elements */
+            max-width: 1200px; /* Verhindert, dass die Zeilen zu lang zum Lesen werden */
+            margin: 20px auto; /* Zentriert die Box, falls sie kleiner als der Bildschirm ist */
             box-sizing: border-box; /* SEHR WICHTIG: Padding wird in die Breite eingerechnet */
         }
 
@@ -488,6 +494,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    async function get_img(stadt, land) {
+        const response = await fetch('/img_request', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                stadt,
+                land,
+            })
+        });
+
+
+        const img_url_answer = await response.json();
+        const img_url = img_url_answer.answer_img;
+        console.log("Responseim url:" + img_url);
+        //Antwort entschlüssel
+        return img_url;
+    }
 
     // Karten anzeigen
     function renderCards(vorschlaege) {
@@ -509,23 +534,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function showDetails(index) {
-         const v = currentVorschlaege[index];
-         const bildQuelle = `https://source.unsplash.com/featured/?${v.stadt},travel`;
-         const detailsDiv = document.getElementById("details-container");
+    async function showDetails(index) {
+        const v = currentVorschlaege[index];
+        const detailsDiv = document.getElementById("details-container");
+        const bildQuelle = await get_img(v.stadt, v.land);
         // Replace the view with details or append a modal
         detailsDiv.innerHTML = `
         <hr>
-        <div class="details-view-card"
+        <div class="details-view-card">
         <div class="text-inhalt">
             <h1>${v.land}</h1>
             <h2>Details für ${v.stadt}</h2>
-            <p></p>
             <p>Durchschnitts Temperatur von ${v.average_temp_month_in_c}°C</p>
             <p>Durchschnitts Niederschlag von ${v.average_niederschlag_month_in_mm} mm</p>
             <p>Sonnenstunden ${v.average_Sonnenstunden_month_in_h} h</p>
-            ${v.wasser_in_20km_radius ?`<p>Wassertemperatur: ${v.closest_water_temp_in_c}°C</p>` : ""}
-            <p></p>
+            ${v.wasser_in_20km_radius ? `<p>Wassertemperatur: ${v.closest_water_temp_in_c}°C</p>` : ""}
             <h2>Reisegestaltung</h2>
             <p>Transportmittel: ${v.transportmittel}</p>
             <p>Unterkunftsart: ${v.unterkunft_art}</p>
