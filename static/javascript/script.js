@@ -1,14 +1,14 @@
-    // Buttons
+// Buttons
 
-    // Vorauswahl -> immer der erste Button wird "active" geschrieben:
-    const api_base_url = "https://backend-travel-planer.onrender.com";
+// Vorauswahl -> immer der erste Button wird "active" geschrieben:
+const api_base_url = "http://127.0.0.1:5000";
 let reisestyle = "Comfort";
 let am_wasser = "Ja";
 let ferienstil = "Aktiv";
 let ferienlage = "Stadt";
 let ferienart = "Stationaer";
 
-    // Die Logik gilt für alle Buttons der Art toggle-btn:
+// Die Logik gilt für alle Buttons der Art toggle-btn:
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".toggle-btn");
 
@@ -17,12 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             const group = this.dataset.group;
 
-                // "Active" wird entfernt sobald ein Button angeklickt wurde
+            // "Active" wird entfernt sobald ein Button angeklickt wurde
             document
                 .querySelectorAll(`.toggle-btn[data-group="${group}"]`)
                 .forEach(btn => btn.classList.remove("active"));
 
-                // "Active" wird gesetzt und für jede Gruppe entsprechend gespeichert
+            // "Active" wird gesetzt und für jede Gruppe entsprechend gespeichert
             this.classList.add("active");
 
             if (group === "reisestyle") reisestyle = this.dataset.value;
@@ -113,6 +113,15 @@ async function askgemini() {
             })
         });
 
+        //Überprüfen falls ein Fehler kommt
+        if(!response.ok){
+            //Fehler entschlüsseln
+            const errorData = await response.json();
+            //Fehler Anzeigen lassen als Alert und genau beschreiben in der Console
+            alert("Fehler: "+response.status+"\nDein Problem: "+errorData.message)
+            console.log("Meldung",errorData.error_message);
+            return;
+        }
         // Auf die Antwort warten
         const data = await response.json();
 
@@ -122,13 +131,14 @@ async function askgemini() {
         // Antwort entschlüsselt
         const parsedAnswer = JSON.parse(data.answer);
 
-        // Antwort in die Karte weitergeben als Liste
+                // Antwort in die Karte weitergeben als Liste
         renderCards(parsedAnswer.vorschlaege);
 
         // Fehler abfangen und in die Konsole schreiben
     } catch (e) {
         console.error("Fehler-Details:", e);
-        alert("Fehler beim Request oder beim Verarbeiten der Daten");
+        alert("Fehler");
+
 
 
         // Loading screen abbrechen und Button wieder freischalten
@@ -140,7 +150,7 @@ async function askgemini() {
 }
 
 async function get_img(stadt, land) {
-    const response = await fetch(`${api_base_url}/img_request`,{
+    const response = await fetch(`${api_base_url}/img_request`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
