@@ -130,6 +130,7 @@ async function askgemini() {
             console.log("Meldung",errorData.error_message);
             return;
         }
+
         // Auf die Antwort warten
         const data = await response.json();
 
