@@ -1,14 +1,14 @@
-// Buttons
+/*------------------------------------------BUTTONS--------------------------------------*/
 
-// Vorauswahl -> immer der erste Button wird "active" geschrieben:
-const api_base_url = "http://127.0.0.1:5000";
+    // Vorauswahl -> immer der erste Button wird "active" geschrieben:
+    const api_base_url = "https://backend-travel-planer.onrender.com";
 let reisestyle = "Comfort";
 let am_wasser = "Ja";
 let ferienstil = "Aktiv";
 let ferienlage = "Stadt";
 let ferienart = "Stationaer";
 
-// Die Logik gilt für alle Buttons der Art toggle-btn:
+    // Die Logik gilt für alle Buttons der Art toggle-btn:
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll(".toggle-btn");
 
@@ -17,12 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             const group = this.dataset.group;
 
-            // "Active" wird entfernt sobald ein Button angeklickt wurde
+                // "Active" wird entfernt sobald ein Button angeklickt wurde
             document
                 .querySelectorAll(`.toggle-btn[data-group="${group}"]`)
                 .forEach(btn => btn.classList.remove("active"));
 
-            // "Active" wird gesetzt und für jede Gruppe entsprechend gespeichert
+                // "Active" wird gesetzt und für jede Gruppe entsprechend gespeichert
             this.classList.add("active");
 
             if (group === "reisestyle") reisestyle = this.dataset.value;
@@ -34,8 +34,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+/*------------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------------EINGABE VARIABELN-----------------------------------*/
+
 async function askgemini() {
-//Variabeln Zuteilung nach dem einlesen
+    //Variabeln Zuteilung nach dem einlesen
     const start_datum = document.getElementById('Start_Datum').value;
     const end_datum = document.getElementById('End_Datum').value;
     const budget = document.getElementById('Budget').value;
@@ -45,7 +50,6 @@ async function askgemini() {
     const ferienfokus = document.getElementById('Fokus').value;
     const btn = document.getElementById('sendBtn');
     const loading = document.getElementById('loading');
-    const resultDiv = document.getElementById('result');
 
 
     // Überprüfen ob wählbare Eingaben getätigt wurden
@@ -80,6 +84,10 @@ async function askgemini() {
         return;
     }
 
+/*------------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------LADEN UND BACKEND HANDLING--------------------------------*/
 
     // Loading anzeigen
     loading.style.display = 'flex';
@@ -131,7 +139,7 @@ async function askgemini() {
         // Antwort entschlüsselt
         const parsedAnswer = JSON.parse(data.answer);
 
-                // Antwort in die Karte weitergeben als Liste
+        // Antwort in die Karte weitergeben als Liste
         renderCards(parsedAnswer.vorschlaege);
 
         // Fehler abfangen und in die Konsole schreiben
@@ -149,8 +157,13 @@ async function askgemini() {
     }
 }
 
+/*------------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------------BILD FÜR DETAILANSICHT------------------------------*/
+
 async function get_img(stadt, land) {
-    const response = await fetch(`${api_base_url}/img_request`, {
+    const response = await fetch(`${api_base_url}/img_request`,{
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -161,13 +174,17 @@ async function get_img(stadt, land) {
         })
     });
 
-
     const img_url_answer = await response.json();
     const img_url = img_url_answer.answer_img;
     console.log("Responseim url:" + img_url);
     // Antwort entschlüsselt
     return img_url;
 }
+
+/*------------------------------------------------------------------------------------------*/
+
+
+/*-----------------------------------DREI VORSCHLÄGE ANZEIGEN-------------------------------*/
 
 // Karten anzeigen
 function renderCards(vorschlaege) {
@@ -192,6 +209,11 @@ function renderCards(vorschlaege) {
         `;
     });
 }
+
+/*------------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------------DETAILKARTE-----------------------------------------*/
 
 async function showDetails(index) {
     const v = currentVorschlaege[index];
@@ -221,3 +243,4 @@ async function showDetails(index) {
     detailsDiv.scrollIntoView({behavior: 'smooth', block: 'start'});
 }
 
+/*------------------------------------------------------------------------------------------*/

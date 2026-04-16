@@ -1,288 +1,218 @@
+/*------------------------------------------BACKGROUND---------------------------*/
+
+/*Bild holen mit entsprechenden Einstellungen (important überschreibt andere CSS Einstellungen*/
 body{background-image: url(../img_background/background.jpg)!important;
-background-size: cover;
-background-position: center;
-    background-attachment: fixed;
+    background-size: cover;                     /*Bild soll die ganze Seite ausfüllen*/
+    background-position: center;                /*Bild soll zentriert sein*/
+    background-attachment: fixed;               /*Bild bleibt fix und inhalt scrollt drüber*/
 }
 
-/*------------------------------------------INPUT TEXT---------------------------*/
-/* Text Inputs Design */
+/*--------------------------------------------------------------------------------*/
 
+
+/*------------------------------------------TITEL DESIGN--------------------------*/
+
+/*Definition des Seitentitels*/
+.titel {
+    position: absolute;                         /*Element aus normalem Seitenfluss nehmen*/
+    font-size: 100px;                           /*Schriftgrösse*/
+    top: 20px;                                  /*Abstand zum oberen Rand des Containers*/
+    left: 0;                                    /*Abstand zum linken Rand des Containers*/
+    right: 0;                                   /*Abstand zum rechten Rand des Containers*/
+    text-align: center;                         /*Text zentriert innerhalb des Elements*/
+    font-family: "Brush Script MT", cursive;    /*Schriftart*/
+    margin: 0;                                  /*Entfernt den Standard-Abstand nach oben und unten*/
+    padding-bottom: 10px;                       /*Abstand nach unten*/
+    z-index: 10;                                /*Dass Text über dem Element liegt*/
+    pointer-events: none;                       /*Reagiert nicht auf Mausklicks*/
+}
+
+/*-------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------SEITENAUFTEILUNG----------------------*/
+
+/*Aufteilung der Seiten*/
+.main-container {
+    display: flex;                              /*Aktiviert das Nebeneinander-Layout*/
+    padding-top: 50px;                          /*Abstand nach oben*/
+    gap: 20px;                                  /*Abstand zwischen links und rechts*/
+    align-items: flex-start;                    /*Verhindert, dass die Seiten unschön gestreckt werden*/
+}
+/*Linke Seite Grösse*/
+.left-side {
+    flex: 1;                                    /*Nimmt einen Teil des Platzes ein*/
+
+}
+/*Rechte Seite Grösse*/
+.right-side {
+    background-color: transparent !important;   /*Hintergrund transparent -> important überschreibt CSS regeln*/
+    background: none !important;                /*Entfernt Hintergrundeinstellungen*/
+    border: none !important;                    /*Entfernt den Rahmen*/
+    flex: 2;                                    /*Rechte Seite doppelt so breit wie linke Seite*/
+    padding: 20px;                              /*Innenabstand*/
+    border-radius: 10px;                        /*Ecken leicht abrunden*/
+    margin-top: 150px;                          /*Bereich nach unten verschieben*/
+}
+
+/*-------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------INPUT TEXT---------------------------*/
+
+/* Text Inputs Design */
 input[type="text"],
 input[type="date"],
 input[type="travel-style-bar"]{
-    height: auto;           /* Überschreibt Picos feste Höhe */
-    padding: 2px 5px;       /* Viel kleiner als der Standard von Pico */
-    font-size: 14px;        /* Schrift etwas verkleinern */
-    margin-bottom: 5px;
-    width: fit-content !important;/* Abstand nach unten anpassen */
+    height: auto;                               /*Überschreibt Picos feste Höhe*/
+    padding: 2px 5px;                           /*Viel kleiner als der Standard von Pico*/
+    font-size: 14px;                            /*Schrift etwas verkleinern*/
+    margin-bottom: 5px;                         /*Abstand nach unten anpassen*/
+    width: fit-content !important;              /*Breite dem Inhalt anpassen*/
 }
 
 /* Das Passiert beim aktivieren  */
 input[type="text"]:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-    background-color: #fafdfa;
+    outline: none;                              /*Keinen Rahmen*/
+    border-color: #4CAF50;                      /*Rahmenfarbe*/
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /*Kein X und Y Versatz, leichte Unschärfe, halbtransparent grün*/
+    background-color: #fafdfa;                  /*Hintergrundfarbe*/
 }
 .karten-titel{
-    font-size: 24px;
-    color: white;
-    font-weight: bold;
+    font-size: 24px;                            /*Schriftgrösse*/
+    color: white;                               /*Schriftfarbe*/
+    font-weight: bold;                          /*Schriftart*/
 }
 .karten-datum{
-    font-size:20px;
-    color: #1c1c1c;
+    font-size:20px;                             /*Schriftgrösse*/
+    color: #1c1c1c;                             /*Schriftfarbe*/
 }
 .karten-inhalt{
-    font-size: 14px;
-    color:black;
+    font-size: 14px;                            /*Schriftgrösse*/
+    color:black;                                /*Schriftfarbe*/
 }
-/* Styling des Platzhalter-Textes *//*
-input[type="text"]::placeholder {
-    color: #aaa;
-    font-style: italic;
-    font-size: 0.9em;
-*/
+
 /*--------------------------------------------------------------------------------*/
 
 
 /*------------------------------------------INPUT DATUM---------------------------*/
+
 /*Datum Inputs Design*/
 input [type="date"] {
-    font-size: 4px;
-    /*
-        display: block;
-        margin-bottom: 15px;
-        padding: 10px 15px;
-        width: 100%; /* Passt sich dem Container an *//*
-        max-width: 300px;*/
-    /* Form *//*
-    border: 2px solid #e0e0e0;
-    border-radius: 12px; /* Schöne abgerundete Ecken *//*
-    font-family: sans-serif;
-
-    /* Farbe *//*
-    background-color: #ffffff;
-    color: #333;
-    accent-color: #4CAF50; /* Die Farbe des Kalender-Pickers *//*
-    transition: all 0.3s ease; /* Macht den Übergang beim Klicken weich */
+    font-size: 4px;                             /*Schriftgrösse*/
 }
 
 /* Passiert beim aktivieren */
 input[type="date"]:focus {
-    border-color: #4CAF50; /* Rahmen farbe */
-    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); /* Sanfter grüner Schein */
-    outline: none;
+    border-color: #4CAF50;                      /*Rahmenfarbe*/
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); /*Sanfter grüner Schein*/
+    outline: none;                              /*Keinen Rahmen*/
 }
+
+/*--------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------INPUT LEISTEN---------------------------*/
+
+/*Button Design beim Hover*/
+.toggle-btn:hover {
+    background: #3c88b5;                        /*Hintergrundfarbe*/
+}
+.travel-style-bar {
+    display: flex;                              /*Anordnung flexibel*/
+    flex-wrap: wrap;                            /*Falls der Platz nicht reicht, bricht es sauber um*/
+    gap: 8px;                                   /*Etwas engerer Abstand*/
+    margin-bottom: 5px;                         /*Abstand nach unten anpassen*/
+    margin-top: 5px;                            /*Abstand nach oben anpassen*/
+}
+
+/*Der spezifische Button-Style*/
+.toggle-btn {
+    padding: 2px 5px !important;                /*Wichtig: padding und width explizit setzen, um Pico zu bändigen*/
+    width: auto !important;                     /*Automatische Breite*/
+    margin: 0 !important;                       /*Abstand*/
+    font-size: 14px !important;                 /*Pico fügt oft Ränder hinzu*/
+    white-space: nowrap;                        /*Verhindert, dass Text im Button umbricht*/
+}
+
+/*Button Design bei Aktivierung*/
+.toggle-btn.active {
+    background: #01113c;!important;             /*Hintergrundfarbe*/
+    color: #ffffff;!important;                  /*Farbe*/
+    font-weight: bold;                          /*Fett*/
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);/*Schatten Y-Versatz, leichte Unschärfe*/
+}
+label {
+    margin-bottom: 0 !important;                /*Entfernt den Abstand unter dem Text*/
+    padding-bottom: 2px !important;             /*Abstand nach unten*/
+    line-height: 1.2 !important;                /*Verringert den vertikalen Platzbedarf des Texts*/
+    display: block;                             /*Macht Element zu einem Blockelement*/
+    font-size: 14px !important;                 /*Schriftgrösse*/
+    font-weight:bold!important;                 /*Schriftart*/
+    color: #ffffff;                             /*Farbe*/
+    width: fit-content!important;               /*Breite passt sich dem Inhalt an*/
+    background-color: rgba(198, 198, 198, 0)    /*10px ist oft zu klein zum lesen, 12px ist ein guter Kompromiss*/
+}
+
 /*--------------------------------------------------------------------------------*/
 
 
 /*------------------------------------------SEARCH BUTTON---------------------------*/
+
 /* Search button design */
 #sendBtn {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 300px;
-    /*background-color: #ffde00;
-    color: #65570f;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 50px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: block;*/
-
-}
-
-/* Hover-Effekt: Wird beim Drüberfahren aktiviert *//*
-#sendBtn:hover {
-    background-color: #ff0000;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
+    margin-top: 20px;                           /*Abstand nach oben*/
+    width: 100%;                                /*Breite*/
+    max-width: 300px;                           /*Max-Breite*/
 }
 
 /* Klick-Effekt */
 #sendBtn:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
-}
-/*--------------------------------------------------------------------------------*/
-
-.titel {
-    position: absolute;
-    font-size: 100px;
-    top: 20px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-family: "Brush Script MT", cursive;
-    margin: 0; /* Entfernt den Standard-Abstand nach oben und unten */
-    padding-bottom: 10px;
-    z-index: 10;
-    pointer-events: none;
-}
-/*------------------------------------------INPUT LEISTEN---------------------------*/
-/*Auswahl Leisten Design*//*
-.travel-style-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-*/
-/*Button nicht aktiviert, Design*//*
-.toggle-btn {
-    padding: 10px 15px;
-    border: none;
-    background: #5cbff5;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
+    transform: translateY(0);                   /*keine Verschiebung*/
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 1);     /*Schatten mit Y-Versatz, leichte Unschärfe*/
 }
 
-/*Button Design beim Hover*/
-.toggle-btn:hover {
-    background: #3c88b5;
-}
-.travel-style-bar {
-    display: flex;
-    flex-wrap: wrap; /* Falls der Platz nicht reicht, bricht es sauber um */
-    gap: 8px;        /* Etwas engerer Abstand */
-    margin-bottom: 5px;
-    margin-top: 5px;
-}
-
-/* Der spezifische Button-Style */
-.toggle-btn {
-    /* Wichtig: padding und width explizit setzen, um Pico zu bändigen */
-    padding: 2px 5px !important;
-    width: auto !important;
-    margin: 0 !important;
-    font-size: 14px !important;/* Pico fügt oft Ränder hinzu */
-    /* Verhindert, dass Text im Button umbricht */
-    white-space: nowrap;
-}
-
-/*Button Design bei aktivierung*/
-.toggle-btn.active {
-    background: #01113c;!important;
-    color: #ffffff;!important;
-    font-weight: bold;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-}
-label {
-    margin-bottom: 0 !important; /* Entfernt den Abstand unter dem Text */
-    padding-bottom: 2px !important;
-    line-height: 1.2 !important;  /* Verringert den vertikalen Platzbedarf des Texts */
-    display: block;
-    font-size: 14px !important;
-    font-weight:bold!important;
-    color: #ffffff;
-    width: fit-content!important;
-    background-color: rgba(198, 198, 198, 0) /* 10px ist oft zu klein zum Lesen, 12px ist ein guter Kompromiss */
-}
-/*--------------------------------------------------------------------------------*/
-
-
-/*------------------------------------------3-VORSCHLÄGE---------------------------*/
-/* Vorschläge Layout */
-#result {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-/*3 Vorschläge Design*/
-.card {
-    background: #3eb138;
-    padding: 20px;
-    border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    width: 600px;
-    transition: transform 0.5s ease;
-}
-
-/*3 Vorschläge Hover funktion*/
-.card:hover {
-    transform: translateY(-5px);
-}
-/*--------------------------------------------------------------------------------*/
-
-
-/*------------------------------------------DETAIL-ANSICHT---------------------------*/
-/*Detail Ansicht*/
-.details-view-card {
-    display: flex;
-    background: #3eb038;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
-    width: 95%; /* Nutzt fast die volle Breite des Eltern-Elements */
-    max-width: 1200px; /* Verhindert, dass die Zeilen zu lang zum Lesen werden */
-    margin: 20px auto; /* Zentriert die Box, falls sie kleiner als der Bildschirm ist */
-    box-sizing: border-box; /* SEHR WICHTIG: Padding wird in die Breite eingerechnet */
-}
-
-/*Text Inhalt der Detail anzeige*/
-.text-inhalt {
-    flex: 1; /* Der Textbereich füllt den Großteil der Breite aus */
-    color: black;
-}
-
-/*Bild der Detail anzeige*/
-.reise-bild-rechts {
-    width: 600px; /* Feste Breite für das Bild */
-    height: auto; /* Automatische Höhe für das Bild */
-    object-fit: cover; /* WICHTIG: Bild wird nicht verzerrt, sondern passend beschnitten */
-    border-radius: 8px; /* Optionale abgerundete Ecken für das Bild */
-}
 /*--------------------------------------------------------------------------------*/
 
 
 /*------------------------------------------LADE BALKEN---------------------------*/
+
 #loading {
-    display: none; /* Wird per JS auf 'flex' gesetzt */
-    position: fixed; /* Fixiert am Bildschirm, scrollt nicht mit */
-    top: 0;
-    left: 0;
-    width: 100vw; /* Volle Breite */
-    height: 100vh; /* Volle Höhe */
-    background-color: rgba(255, 255, 255, 0.8); /* Halbtransparenter weißer Hintergrund */
-    z-index: 9999; /* Stellt sicher, dass es GANZ oben liegt */
+    display: none;                              /*Wird per JS auf 'flex' gesetzt*/
+    position: fixed;                            /*Fixiert am Bildschirm, scrollt nicht mit*/
+    top: 0;                                     /*Nach oben*/
+    left: 0;                                    /*Nach links*/
+    width: 100vw;                               /*Volle Breite*/
+    height: 100vh;                              /*Volle Höhe*/
+    background-color: rgba(255, 255, 255, 0.8); /*Halbtransparenter weisser Hintergrund*/
+    z-index: 9999;                              /*Stellt sicher, dass es GANZ oben liegt*/
 
     /* Zentrierung des Inhalts (Loader + Text) */
-    display: none; /* Standardmäßig aus */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: none;                              /*Standardmässig aus*/
+    flex-direction: column;                     /*Richtet untereinander aus*/
+    justify-content: center;                    /*Zentriert Inhalt entlang der Achse*/
+    align-items: center;                        /*Zentriert Inhalt quer zur Achse*/
 }
 
 /* Dein Loader-Balken */
 .loader {
-    width: 300px; /* Feste Breite für die Zentrierung */
-    height: 8px;
-    background: #888888;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
+    width: 300px;                               /*Feste Breite für die Zentrierung*/
+    height: 8px;                                /*Feste Höhe*/
+    background: #888888;                        /*Hintergrund*/
+    border-radius: 10px;                        /*Ecken abrunden*/
+    overflow: hidden;                           /*Alles was über die Grenze geht wird abgeschnitten*/
+    position: relative;                         /*Element als Referenzpunkt*/
 }
 
 /*Animation Design Lade Balken*/
 .loader::before {
-    content: "";
-    position: absolute;
-    width: 40%;
-    height: 100%;
-    background: #00ff4c;
-    border-radius: 10px;
-    animation: loading 1.7s infinite;
+    content: "";                                /*Inhalt leer*/
+    position: absolute;                         /*Element aus normalem Seitenfluss nehmen*/
+    width: 40%;                                 /*Breite*/
+    height: 100%;                               /*Höhe*/
+    background: #00ff4c;                        /*Hintergrund*/
+    border-radius: 10px;                        /*Ecken abrunden*/
+    animation: loading 1.7s infinite;           /*Animation mit 1.7s für einen Durchgang des Balkens*/
 }
 
 /*Animation des Ladebalkens*/
@@ -298,27 +228,68 @@ label {
     }
 }
 
-/*Aufteilung der Seiten*/
-.main-container {
-    display: flex; /* Aktiviert das Nebeneinander-Layout */
-    padding-top: 50px;
-    gap: 20px;    /* Abstand zwischen links und rechts */
-    align-items: flex-start; /* Verhindert, dass die Seiten unschön gestreckt werden */
-}
-/*Linke Seite Grösse*/
-.left-side {
-    flex: 1; /* Nimmt einen Teil des Platzes ein */
-
-}
-/*Rechte Seite Grösse*/
-.right-side {
-    background-color: transparent !important;
-    background: none !important;
-    border: none !important;
-    flex: 2;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 150px;
-}
+/*--------------------------------------------------------------------------------*/
 
 
+/*------------------------------------------3-VORSCHLÄGE---------------------------*/
+
+/* Vorschläge Layout */
+#result {
+    display: flex;                              /*Anordnung flexibel*/
+    gap: 15px;                                  /*Abstand zwischen Elementen*/
+    flex-wrap: wrap;                            /*Elemente dürfen in die nächste Zeile umbrechen*/
+    justify-content: center;                    /*Zentriert Inhalt entlang der Achse*/
+    margin-top: 20px;                           /*Abstand nach oben*/
+}
+
+/*3 Vorschläge Design*/
+.card {
+    background: #3eb138;                        /*Hintergrund*/
+    padding: 20px;                              /*Abstand in alle Richtungen*/
+    border-radius: 50px;                        /*Ecken abrunden*/
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);  /*Schatten mit Y-Versatz, leichter Unschärfe*/
+    width: 600px;                               /*Breite*/
+    transition: transform 0.5s ease;            /*Übergangsanimation von 0.5s*/
+}
+
+/*3 Vorschläge Hover funktion*/
+.card:hover {
+    transform: translateY(-5px);                /*Karte bewegt sich nach oben beim drüberfahren*/
+}
+
+/*--------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------DETAIL-ANSICHT---------------------------*/
+
+/*Detail Ansicht*/
+.details-view-card {
+    display: flex;                              /*Anordnung flexibel*/
+    background: #3eb038;                        /*Hintergrund*/
+    justify-content: space-between;             /*Abstand zwischen Elementen*/
+    align-items: flex-start;                    /*Richtet Elemente am Container aus*/
+    gap: 20px;                                  /*Abstand*/
+    padding: 15px;                              /*Abstand in alle Richtungen*/
+    border-radius: 10px;                        /*Ecken abrunden*/
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 1);    /*Schatten mit Y-Versatz, leichte Unschärfe*/
+    width: 95%;                                 /*Nutzt fast die volle Breite des Eltern-Elements*/
+    max-width: 1200px;                          /*Verhindert, dass die Zeilen zu lang zum Lesen werden*/
+    margin: 20px auto;                          /*Zentriert die Box, falls sie kleiner als der Bildschirm ist*/
+    box-sizing: border-box;                     /*SEHR WICHTIG: Padding wird in die Breite eingerechnet*/
+}
+
+/*Text Inhalt der Detail Anzeige*/
+.text-inhalt {
+    flex: 1;                                    /*Der Textbereich füllt den Grossteil der Breite aus*/
+    color: black;
+}
+
+/*Bild der Detail anzeige*/
+.reise-bild-rechts {
+    width: 600px;                               /*Feste Breite für das Bild*/
+    height: auto;                               /*Automatische Höhe für das Bild*/
+    object-fit: cover;                          /*WICHTIG: Bild wird nicht verzerrt, sondern passend beschnitten*/
+    border-radius: 8px;                         /*Optionale abgerundete Ecken für das Bild*/
+}
+
+/*--------------------------------------------------------------------------------*/
