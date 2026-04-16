@@ -78,19 +78,6 @@ input[type="text"]:focus {
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /*Kein X und Y Versatz, leichte Unschärfe, halbtransparent grün*/
     background-color: #fafdfa;                  /*Hintergrundfarbe*/
 }
-.karten-titel{
-    font-size: 24px;                            /*Schriftgrösse*/
-    color: white;                               /*Schriftfarbe*/
-    font-weight: bold;                          /*Schriftart*/
-}
-.karten-datum{
-    font-size:20px;                             /*Schriftgrösse*/
-    color: #1c1c1c;                             /*Schriftfarbe*/
-}
-.karten-inhalt{
-    font-size: 14px;                            /*Schriftgrösse*/
-    color:black;                                /*Schriftfarbe*/
-}
 
 /*--------------------------------------------------------------------------------*/
 
@@ -255,6 +242,20 @@ label {
 /*3 Vorschläge Hover funktion*/
 .card:hover {
     transform: translateY(-5px);                /*Karte bewegt sich nach oben beim drüberfahren*/
+}
+
+.karten-titel{
+    font-size: 24px;                            /*Schriftgrösse*/
+    color: white;                               /*Schriftfarbe*/
+    font-weight: bold;                          /*Schriftart*/
+}
+.karten-datum{
+    font-size:20px;                             /*Schriftgrösse*/
+    color: #1c1c1c;                             /*Schriftfarbe*/
+}
+.karten-inhalt{
+    font-size: 14px;                            /*Schriftgrösse*/
+    color:black;                                /*Schriftfarbe*/
 }
 
 /*--------------------------------------------------------------------------------*/
