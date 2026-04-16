@@ -1,4 +1,4 @@
-    // Buttons
+/*------------------------------------------BUTTONS--------------------------------------*/
 
     // Vorauswahl -> immer der erste Button wird "active" geschrieben:
     const api_base_url = "https://backend-travel-planer.onrender.com";
@@ -34,8 +34,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+/*------------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------------EINGABE VARIABELN-----------------------------------*/
+
 async function askgemini() {
-//Variabeln Zuteilung nach dem einlesen
+    //Variabeln Zuteilung nach dem einlesen
     const start_datum = document.getElementById('Start_Datum').value;
     const end_datum = document.getElementById('End_Datum').value;
     const budget = document.getElementById('Budget').value;
@@ -45,7 +50,6 @@ async function askgemini() {
     const ferienfokus = document.getElementById('Fokus').value;
     const btn = document.getElementById('sendBtn');
     const loading = document.getElementById('loading');
-    const resultDiv = document.getElementById('result');
 
 
     // Überprüfen ob wählbare Eingaben getätigt wurden
@@ -80,6 +84,10 @@ async function askgemini() {
         return;
     }
 
+/*------------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------LADEN UND BACKEND HANDLING--------------------------------*/
 
     // Loading anzeigen
     loading.style.display = 'flex';
@@ -139,6 +147,11 @@ async function askgemini() {
     }
 }
 
+/*------------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------------BILD FÜR DETAILANSICHT------------------------------*/
+
 async function get_img(stadt, land) {
     const response = await fetch(`${api_base_url}/img_request`,{
         method: "POST",
@@ -151,13 +164,17 @@ async function get_img(stadt, land) {
         })
     });
 
-
     const img_url_answer = await response.json();
     const img_url = img_url_answer.answer_img;
     console.log("Responseim url:" + img_url);
     // Antwort entschlüsselt
     return img_url;
 }
+
+/*------------------------------------------------------------------------------------------*/
+
+
+/*-----------------------------------DREI VORSCHLÄGE ANZEIGEN-------------------------------*/
 
 // Karten anzeigen
 function renderCards(vorschlaege) {
@@ -182,6 +199,11 @@ function renderCards(vorschlaege) {
         `;
     });
 }
+
+/*------------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------------DETAILKARTE-----------------------------------------*/
 
 async function showDetails(index) {
     const v = currentVorschlaege[index];
@@ -211,3 +233,4 @@ async function showDetails(index) {
     detailsDiv.scrollIntoView({behavior: 'smooth', block: 'start'});
 }
 
+/*------------------------------------------------------------------------------------------*/
